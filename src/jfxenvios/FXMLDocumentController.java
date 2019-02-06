@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -27,6 +28,8 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private Button btTrabajando;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,6 +62,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void Entrega(MouseEvent event) {
         loadPantalla("Entrega");
+    }
+
+    @FXML
+    private void trabajadoresActuales(MouseEvent event) {
+        loadPantalla("VerListadoCompleto");
     }
 
     private void loadPantalla(String pantalla) {
