@@ -76,4 +76,9 @@ public class Camion {
         this.tipo = tipo;
     }
 
+    @Override
+    public String toString() {
+        return "Camion{" + "matricula=" + matricula + ", Modelo=" + Modelo + ", potencia=" + potencia + ", tipo=" + tipo + ", repartos=" + repartos + '}';
+    }
+
 }
