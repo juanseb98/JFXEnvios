@@ -22,7 +22,7 @@ public class Paquete implements Serializable {
 
     @Column(name = "destino")
     private String destino;
-
+    
     @Column(name = "entregado")
     @Type(type = "boolean")
     private Boolean entregado;
@@ -49,7 +49,7 @@ public class Paquete implements Serializable {
     public Paquete() {
         super();
     }
-
+    
     public int getCodigo() {
         return codigo;
     }
@@ -65,7 +65,7 @@ public class Paquete implements Serializable {
     public Reparto getReparto() {
         return reparto;
     }
-
+    
     public boolean isEntregado() {
         return this.entregado;
     }
@@ -73,7 +73,7 @@ public class Paquete implements Serializable {
     public void setEntregado(Boolean b) {
         this.entregado = b;
     }
-
+    
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
@@ -89,7 +89,7 @@ public class Paquete implements Serializable {
     public void setReparto(Reparto reparto) {
         this.reparto = reparto;
     }
-
+    
     @Override
     public String toString() {
         return "Paquete{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", destino=" + destino + ", reparto=" + reparto + '}';

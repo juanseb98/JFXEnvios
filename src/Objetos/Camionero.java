@@ -33,7 +33,7 @@ public class Camionero implements Serializable {
     private Double salario;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dniCamionero")
+    @JoinColumn(name ="dniCamionero")
     //@IndexColumn(name = "idx2")
     private List<Reparto> repartos;
 
@@ -45,12 +45,14 @@ public class Camionero implements Serializable {
         setSalario(salario);
         repartos = new ArrayList<Reparto>();
     }
+    
 
     public Camionero() {
-        super();
-    }
+		super();
+	}
 
-    //Getters
+
+	//Getters
     public String getDni() {
         return dni;
     }

@@ -37,7 +37,7 @@ public class Camion {
     private TipoCamion tipo;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "matriculaCamion")
+    @JoinColumn(name ="matriculaCamion")
     //@IndexColumn(name = "idx1")
     private List<Reparto> repartos;
 
@@ -48,12 +48,14 @@ public class Camion {
         this.tipo = tipo;
         repartos = new ArrayList<Reparto>();
     }
+    
 
     public Camion() {
-        super();
-    }
+		super();
+	}
 
-    //Getters
+
+	//Getters
     public String getMatricula() {
         return matricula;
     }
@@ -86,15 +88,17 @@ public class Camion {
     public void setTipo(TipoCamion tipo) {
         this.tipo = tipo;
     }
-
+    
     public Reparto mostrarRepartos() {
-        return repartos.get(0);
+    	return repartos.get(0);
     }
 
-    @Override
-    public String toString() {
-        return "Camion [matricula=" + matricula + ", Modelo=" + Modelo + ", potencia=" + potencia + ", tipo=" + tipo
-                + ", repartos=]";
-    }
+	@Override
+	public String toString() {
+		return "Camion [matricula=" + matricula + ", Modelo=" + Modelo + ", potencia=" + potencia + ", tipo=" + tipo
+				+ ", repartos=]";
+	}
+    
+    
 
 }
