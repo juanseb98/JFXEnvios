@@ -47,6 +47,8 @@ public class PaquetesController implements Initializable {
             );
 
     private Reparto rep;
+    @FXML
+    private TableColumn<Paquete, Boolean> tcEntregado;
 
     /**
      * Initializes the controller class.
@@ -59,6 +61,8 @@ public class PaquetesController implements Initializable {
                 new PropertyValueFactory<Paquete, String>("descripcion"));
         tcDestino.setCellValueFactory(
                 new PropertyValueFactory<Paquete, String>("destino"));
+        tcEntregado.setCellValueFactory(
+                new PropertyValueFactory<Paquete, Boolean>("entregado"));
 
         tbPaqueteria.setItems(data);
         tbPaqueteria.getSelectionModel().selectFirst();
