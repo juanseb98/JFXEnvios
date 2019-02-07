@@ -73,7 +73,9 @@ public class FXMLDocumentController implements Initializable {
     private void loadPantalla(String pantalla) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource(pantalla + ".fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(pantalla + ".fxml"));
+            fxmlLoader.getController();
+            root = fxmlLoader.load();
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }

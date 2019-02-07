@@ -5,6 +5,7 @@
  */
 package jfxenvios;
 
+import Objetos.Camion;
 import Objetos.TipoCamion;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +37,8 @@ public class InsertarCamionController implements Initializable {
     @FXML
     private ComboBox<TipoCamion> cbTipo;
 
+    private CamionesController ctr;
+
     /**
      * Initializes the controller class.
      */
@@ -56,7 +59,24 @@ public class InsertarCamionController implements Initializable {
 
     @FXML
     private void insertarCamion(MouseEvent event) {
+        String matricula, modelo, tipo;
+        double potencia;
+
+        matricula = txMatricula.getText();
+        modelo = txModelo.getText();
+        tipo = cbTipo.getValue().toString();
+        potencia = Double.parseDouble(txPotencia.getText());
+
+        System.out.println("matricula " + matricula + " modelo " + modelo + " tipo " + tipo + " potencia " + potencia);
+
+        Camion c = new Camion(matricula, modelo, potencia, TipoCamion.valueOf(tipo));
+
         //TODO Realizar insert en Camion hibernate
+        ctr.insertarCamion(c);
+    }
+
+    public void setCamionesController(CamionesController ctr) {
+        this.ctr = ctr;
     }
 
 }

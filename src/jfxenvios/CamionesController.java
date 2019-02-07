@@ -14,13 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -36,8 +36,6 @@ public class CamionesController implements Initializable {
 
     @FXML
     private Button btSeleccionar;
-    @FXML
-    private Button btInsertar;
 
     @FXML
     private TableView<Camion> tablaCamiones = new TableView<Camion>();
@@ -59,6 +57,10 @@ public class CamionesController implements Initializable {
     private TableColumn<Camion, String> tcTipo;
     @FXML
     private TableColumn<Camion, String> tcPotencia;
+
+    private double x, y;
+    @FXML
+    private Button btInsertar;
 
     /**
      * Initializes the controller class.
@@ -93,11 +95,26 @@ public class CamionesController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InsertarCamion.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             stage.setScene(new Scene(root1));
-            stage.show();
+            stage.setResizable(false);
+
+            InsertarCamionController camionctr = fxmlLoader.getController();
+            camionctr.setCamionesController(this);
+
+            stage.showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(CamionesController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //TODO obtener camiones de nuevo
+    }
 
+    //Futuro actualizar tabla
+    public void insertarCamion(Camion c) {
+        data.add(c);
+        tablaCamiones.setItems(data);
+        tablaCamiones.getSelectionModel().selectFirst();
+
+        tablaCamiones.setItems(data);
+        tablaCamiones.getSelectionModel().selectFirst();
     }
 
 }
