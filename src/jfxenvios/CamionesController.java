@@ -88,7 +88,7 @@ public class CamionesController implements Initializable {
         Camion cam = tablaCamiones.getSelectionModel().getSelectedItem();
         Date fecha = new Date();
         Camionero cami = new Camionero();
-        Reparto rep = new Reparto(cami, cam, fecha);
+        Reparto rep = new Reparto(cam, cami, fecha);
         // TODO Realizar insert en la tabla Reparto con un camionero y cam
         System.out.println(cam.toString());
     }
