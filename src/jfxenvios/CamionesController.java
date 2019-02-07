@@ -87,8 +87,18 @@ public class CamionesController implements Initializable {
         System.out.println(cam.toString());
     }
 
+    //Futuro actualizar tabla
+    public void insertarCamion(Camion c) {
+        data.add(c);
+        tablaCamiones.setItems(data);
+        tablaCamiones.getSelectionModel().selectFirst();
+
+        tablaCamiones.setItems(data);
+        tablaCamiones.getSelectionModel().selectFirst();
+    }
+
     @FXML
-    private void insertarCamion(MouseEvent event) {
+    private void insertarNuevoCamion(MouseEvent event) {
 
         try {
             Stage stage = new Stage();
@@ -105,16 +115,6 @@ public class CamionesController implements Initializable {
             Logger.getLogger(CamionesController.class.getName()).log(Level.SEVERE, null, ex);
         }
         //TODO obtener camiones de nuevo
-    }
-
-    //Futuro actualizar tabla
-    public void insertarCamion(Camion c) {
-        data.add(c);
-        tablaCamiones.setItems(data);
-        tablaCamiones.getSelectionModel().selectFirst();
-
-        tablaCamiones.setItems(data);
-        tablaCamiones.getSelectionModel().selectFirst();
     }
 
 }

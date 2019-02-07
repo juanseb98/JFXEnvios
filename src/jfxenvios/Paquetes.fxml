@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #303030;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #303030;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jfxenvios.PaquetesController">
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 32px; -fx-fill: white;" text="Paquetes" />
+      <Button fx:id="btPaqueteToReparto" layoutX="206.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#aniadirPaqueteToReparto" prefHeight="26.0" prefWidth="190.0" text="Añadir paquete a reparto" />
+      <TableView fx:id="tbPaqueteria" layoutX="100.0" layoutY="74.0" prefHeight="253.0" prefWidth="401.0">
+        <columns>
+            <TableColumn fx:id="tcId" editable="false" prefWidth="65.0" sortable="false" text="ID" />
+          <TableColumn fx:id="tcdescripcion" editable="false" prefWidth="237.0" sortable="false" text="Descripcion" />
+          <TableColumn fx:id="tcDestino" editable="false" prefWidth="98.0" sortable="false" text="Destino" />
+        </columns>
+      </TableView>
+      <Text layoutX="103.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-size: 20 px;" text="Escoja los paquetes que quiera repartir" />
    </children>
-</HBox>
+</AnchorPane>

@@ -62,6 +62,7 @@ public class InsertarCamionController implements Initializable {
         String matricula, modelo, tipo;
         double potencia;
 
+        //TODO controlar datos nulos
         matricula = txMatricula.getText();
         modelo = txModelo.getText();
         tipo = cbTipo.getValue().toString();
@@ -72,6 +73,7 @@ public class InsertarCamionController implements Initializable {
         Camion c = new Camion(matricula, modelo, potencia, TipoCamion.valueOf(tipo));
 
         //TODO Realizar insert en Camion hibernate
+        //futuro metodo actualizar tabla
         ctr.insertarCamion(c);
     }
 

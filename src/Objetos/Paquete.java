@@ -32,6 +32,16 @@ public class Paquete implements Serializable {
         reparto = null;
     }
 
+    public Paquete(String descripcion, String destino) {
+        this.descripcion = descripcion;
+        this.destino = destino;
+        reparto = null;
+    }
+
+    public Paquete() {
+        super();
+    }
+
     public int getCodigo() {
         return codigo;
     }
@@ -62,6 +72,11 @@ public class Paquete implements Serializable {
 
     public void setReparto(Reparto reparto) {
         this.reparto = reparto;
+    }
+
+    @Override
+    public String toString() {
+        return "Paquete{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", destino=" + destino + ", reparto=" + reparto + '}';
     }
 
 }
