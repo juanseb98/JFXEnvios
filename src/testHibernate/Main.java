@@ -51,10 +51,10 @@ public class Main {
                 genericDAO.guardar(rep);
 
             } else {
-                Query query = session.createQuery("SELECT c FROM Reparto c");
-                List<Reparto> repartos = query.list();
-                for (Reparto reparto : repartos) {
-                    System.out.println(reparto.toString());
+                Query query = session.createQuery("SELECT c FROM Paquete c");
+                List<Paquete> paquetes = query.list();
+                for (Paquete paquete : paquetes) {
+                    System.out.println(paquete.toString());
                 }
             }
 
