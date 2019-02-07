@@ -3,6 +3,8 @@ package Objetos;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -28,8 +30,9 @@ public class Reparto implements Serializable {
     @Column(name = "fecha")
     private Date fecha;
 
-    @OneToMany(mappedBy = "reparto", cascade = CascadeType.ALL)
-    private ArrayList<Paquete> listaPaquetes;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "reparto")
+    private List<Paquete> listaPaquetes;
 
     public Reparto(int identificador, Camion camion, Camionero camionero, Date fecha) {
         this.identificador = identificador;
@@ -37,6 +40,17 @@ public class Reparto implements Serializable {
         this.camionero = camionero;
         this.fecha = fecha;
         listaPaquetes = new ArrayList<Paquete>();
+    }
+
+    public Reparto(Camion camion, Camionero camionero, Date fecha) {
+        this.camion = camion;
+        this.camionero = camionero;
+        this.fecha = fecha;
+        listaPaquetes = new ArrayList<Paquete>();
+    }
+
+    public Reparto() {
+        super();
     }
 
     //Getters
@@ -56,7 +70,7 @@ public class Reparto implements Serializable {
         return fecha;
     }
 
-    public ArrayList<Paquete> getListaPaquetes() {
+    public List<Paquete> getListaPaquetes() {
         return listaPaquetes;
     }
 
@@ -79,6 +93,12 @@ public class Reparto implements Serializable {
 
     public void aniadirPaquete(Paquete p) {
         listaPaquetes.add(p);
+    }
+
+    @Override
+    public String toString() {
+        return "Reparto [identificador=" + identificador + ", camion=" + camion + ", camionero=" + camionero
+                + ", fecha=" + fecha + ", listaPaquetes=" + listaPaquetes + "]";
     }
 
 }

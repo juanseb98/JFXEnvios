@@ -6,15 +6,17 @@
 package jfxenvios;
 
 import Objetos.Camion;
+import Objetos.Camionero;
+import Objetos.Reparto;
 import Objetos.TipoCamion;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -41,14 +43,7 @@ public class CamionesController implements Initializable {
     private TableView<Camion> tablaCamiones = new TableView<Camion>();
 
     //TODO Realizar consulta de camiones que no esten dentro de la tabla reparto
-    private final ObservableList<Camion> data
-            = FXCollections.observableArrayList(
-                    new Camion("123hjk", "Mercedes", 20.5, TipoCamion.Diesel),
-                    new Camion("798asd", "BMW", 15.5, TipoCamion.Gasolina),
-                    new Camion("156dsa", "Renault", 30.0, TipoCamion.Diesel),
-                    new Camion("156njk", "Mercedes", 60.5, TipoCamion.Gasolina),
-                    new Camion("365phb", "Seat", 26.3, TipoCamion.Diesel)
-            );
+    private ObservableList<Camion> data;
     @FXML
     private TableColumn<Camion, String> tcMatricula;
     @FXML
@@ -67,6 +62,14 @@ public class CamionesController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        data = FXCollections.observableArrayList(
+                new Camion("123hjk", "Mercedes", 20.5, TipoCamion.Diesel),
+                new Camion("798asd", "BMW", 15.5, TipoCamion.Gasolina),
+                new Camion("156dsa", "Renault", 30.0, TipoCamion.Diesel),
+                new Camion("156njk", "Mercedes", 60.5, TipoCamion.Gasolina),
+                new Camion("365phb", "Seat", 26.3, TipoCamion.Diesel)
+        );
+
         tcMatricula.setCellValueFactory(
                 new PropertyValueFactory<Camion, String>("matricula"));
         tcModelo.setCellValueFactory(
@@ -83,7 +86,10 @@ public class CamionesController implements Initializable {
     @FXML
     private void seleccionarCamion(MouseEvent event) {
         Camion cam = tablaCamiones.getSelectionModel().getSelectedItem();
-        //Realizar insert en la tabla Reparto con un camionero y cam
+        Date fecha = new Date();
+        Camionero cami = new Camionero();
+        Reparto rep = new Reparto(cami, cam, fecha);
+        // TODO Realizar insert en la tabla Reparto con un camionero y cam
         System.out.println(cam.toString());
     }
 

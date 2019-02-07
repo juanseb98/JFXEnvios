@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -12,8 +13,8 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #303030;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jfxenvios.PaquetesController">
    <children>
-      <Button fx:id="btPaqueteToReparto" layoutX="206.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#aniadirPaqueteToReparto" prefHeight="26.0" prefWidth="190.0" text="Añadir paquete a reparto" />
-      <TableView fx:id="tbPaqueteria" layoutX="50.0" layoutY="73.0" prefHeight="253.0" prefWidth="476.0">
+      <Button fx:id="btPaqueteToReparto" layoutX="157.0" layoutY="359.0" mnemonicParsing="false" onMouseClicked="#aniadirPaqueteToReparto" prefHeight="26.0" prefWidth="190.0" text="Añadir paquete a reparto" />
+      <TableView fx:id="tbPaqueteria" layoutX="14.0" layoutY="101.0" prefHeight="253.0" prefWidth="476.0">
         <columns>
             <TableColumn fx:id="tcId" editable="false" prefWidth="65.0" resizable="false" sortable="false" text="ID" />
           <TableColumn fx:id="tcdescripcion" editable="false" prefWidth="228.0" resizable="false" sortable="false" text="Descripcion" />
@@ -21,6 +22,9 @@
             <TableColumn fx:id="tcEntregado" editable="false" prefWidth="66.0" resizable="false" sortable="false" text="Entregado" />
         </columns>
       </TableView>
-      <Text layoutX="103.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-size: 20 px;" text="Escoja los paquetes que quiera repartir" />
+      <Text layoutX="58.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-size: 20 px;" text="Escoja los paquetes que quiera repartir" />
+      <RadioButton fx:id="rbTodos" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" selected="true" style="-fx-text-fill: white;" text="Todos" />
+      <RadioButton fx:id="rbNoEntregados" layoutX="77.0" layoutY="73.0" mnemonicParsing="false" style="-fx-text-fill: white;" text="No entregados" />
+      <RadioButton fx:id="rbEntregados" layoutX="189.0" layoutY="73.0" mnemonicParsing="false" style="-fx-text-fill: white;" text="Entregados" />
    </children>
 </AnchorPane>

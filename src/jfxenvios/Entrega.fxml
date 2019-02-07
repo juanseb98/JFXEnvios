@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="244.0" style="-fx-background-color: #303030;">
-         <children>
-            <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="232.0" prefWidth="248.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="Codigo" />
-                <TableColumn prefWidth="97.0" text="Descripcion" />
-                  <TableColumn prefWidth="68.0" text="Destino" />
-              </columns>
-            </TableView>
-         </children></AnchorPane>
-  </content>
-</ScrollPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #303030;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jfxenvios.EntregaController">
+   <children>
+      <TableView fx:id="tbPaqueteria" layoutX="62.0" layoutY="74.0" prefHeight="253.0" prefWidth="476.0">
+         <columns>
+            <TableColumn fx:id="tcId" editable="false" prefWidth="65.0" resizable="false" sortable="false" text="ID" />
+            <TableColumn fx:id="tcdescripcion" editable="false" prefWidth="216.0" resizable="false" sortable="false" text="Descripcion" />
+            <TableColumn fx:id="tcDestino" editable="false" prefWidth="121.0" resizable="false" sortable="false" text="Destino" />
+            <TableColumn fx:id="tcEntregado" editable="false" prefWidth="73.0" resizable="false" sortable="false" text="Entregado" />
+         </columns>
+      </TableView>
+      <Text layoutX="166.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-size: 20 px;" text="Seleccione paquete a entregar" />
+      <Button fx:id="btEntregar" layoutX="215.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#entregarPaquete" prefHeight="34.0" prefWidth="169.0" text="Entregar" />
+   </children>
+</AnchorPane>

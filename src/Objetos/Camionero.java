@@ -2,7 +2,11 @@ package Objetos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
+
+import org.hibernate.annotations.IndexColumn;
 
 /**
  *
@@ -28,8 +32,10 @@ public class Camionero implements Serializable {
     @Column(name = "salario")
     private Double salario;
 
-    @OneToMany(mappedBy = "camionero", cascade = CascadeType.ALL)
-    private ArrayList<Reparto> repartos;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dniCamionero")
+    //@IndexColumn(name = "idx2")
+    private List<Reparto> repartos;
 
     public Camionero(String dni, String nombre, String poblacion, int tlfn, Double salario) throws Exception {
         setDni(dni);
@@ -38,6 +44,10 @@ public class Camionero implements Serializable {
         this.tlfn = tlfn;
         setSalario(salario);
         repartos = new ArrayList<Reparto>();
+    }
+
+    public Camionero() {
+        super();
     }
 
     //Getters
