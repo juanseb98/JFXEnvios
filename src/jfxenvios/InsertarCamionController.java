@@ -14,10 +14,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -38,6 +41,7 @@ public class InsertarCamionController implements Initializable {
     private ComboBox<TipoCamion> cbTipo;
 
     private CamionesController ctr;
+    private Stage stage;
 
     /**
      * Initializes the controller class.
@@ -62,23 +66,46 @@ public class InsertarCamionController implements Initializable {
         String matricula, modelo, tipo;
         double potencia;
 
-        //TODO controlar datos nulos
-        matricula = txMatricula.getText();
-        modelo = txModelo.getText();
-        tipo = cbTipo.getValue().toString();
-        potencia = Double.parseDouble(txPotencia.getText());
+        try {
+            matricula = txMatricula.getText();
+            modelo = txModelo.getText();
+            tipo = cbTipo.getValue().toString();
+            potencia = Double.parseDouble(txPotencia.getText());
+            if (matricula.equals("") || modelo.equals("")) {
+                throw new RuntimeException("datos vacios");
+            }
+            System.out.println("matricula " + matricula + " modelo " + modelo + " tipo " + tipo + " potencia " + potencia);
 
-        System.out.println("matricula " + matricula + " modelo " + modelo + " tipo " + tipo + " potencia " + potencia);
+            Camion c = new Camion(matricula, modelo, potencia, TipoCamion.valueOf(tipo));
 
-        Camion c = new Camion(matricula, modelo, potencia, TipoCamion.valueOf(tipo));
+            //TODO Realizar insert en Camion hibernate
+            //futuro metodo actualizar tabla
+            ctr.insertarCamion(c);
 
-        //TODO Realizar insert en Camion hibernate
-        //futuro metodo actualizar tabla
-        ctr.insertarCamion(c);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Insertado con exito");
+            alert.setHeaderText(null);
+            alert.setContentText("Camion con matricula " + matricula + " insertado con exito");
+
+            alert.showAndWait();
+            stage.close();
+        } catch (RuntimeException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al insertar");
+            alert.setContentText("Deben estar todos los datos rellenos");
+
+            alert.showAndWait();
+        }
+
     }
 
     public void setCamionesController(CamionesController ctr) {
         this.ctr = ctr;
+    }
+
+    void setStage(Stage stage) {
+        this.stage = stage;
     }
 
 }

@@ -115,6 +115,7 @@ public class CamionesController implements Initializable {
 
             InsertarCamionController camionctr = fxmlLoader.getController();
             camionctr.setCamionesController(this);
+            camionctr.setStage(stage);
 
             stage.showAndWait();
         } catch (IOException ex) {
