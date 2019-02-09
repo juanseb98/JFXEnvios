@@ -1,4 +1,3 @@
-package principal;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
         configurarSesion();
         try {
-            Camionero cam = new Camionero("20503879T", "Juan", "Sevilla", 697366754, 1400.0);
+            Camionero cam = new Camionero("20503879T", "password", "Juan", "Sevilla", 697366754, 1400.0);
             Camion cami = new Camion("123jdk", "Mercedes", 25.0, TipoCamion.Diesel);
 
             Paquete a = new Paquete(123, "Paquete grande", "Sevilla");

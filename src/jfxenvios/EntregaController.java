@@ -70,6 +70,7 @@ public class EntregaController implements Initializable {
 
     private void cargarDatosDeBD() {
         //TODO select * from paquete where entregado = 0;
+        //select * from paquete p where p.id_reparto=(select id from reparto where dniCamionero = (Select dni from camionero where nombre ="juan")) and p.entregado = 0;
         //data.add(p);
         data = FXCollections.observableArrayList(
                 new Paquete(123, "Paquete grande", "Sevilla"),

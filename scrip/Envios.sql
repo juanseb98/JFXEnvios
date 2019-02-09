@@ -5,6 +5,7 @@ use envios;
 CREATE TABLE camionero(
 	dni VARCHAR(9)  NOT NULL,
 	nombre VARCHAR(20),
+    -- pwd VARCHAR(30),
 	poblacion VARCHAR(15),
 	telefono INT,
 	salario DOUBLE(7,2),

@@ -23,6 +23,9 @@ public class Camionero implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "pwd")
+    private String pass;
+
     @Column(name = "poblacion")
     private String poblacion;
 
@@ -33,26 +36,25 @@ public class Camionero implements Serializable {
     private Double salario;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name ="dniCamionero")
+    @JoinColumn(name = "dniCamionero")
     //@IndexColumn(name = "idx2")
     private List<Reparto> repartos;
 
-    public Camionero(String dni, String nombre, String poblacion, int tlfn, Double salario) throws Exception {
+    public Camionero(String dni, String pwd, String nombre, String poblacion, int tlfn, Double salario) throws Exception {
         setDni(dni);
+        this.pass = pwd;
         this.nombre = nombre;
         this.poblacion = poblacion;
         this.tlfn = tlfn;
         setSalario(salario);
         repartos = new ArrayList<Reparto>();
     }
-    
 
     public Camionero() {
-		super();
-	}
+        super();
+    }
 
-
-	//Getters
+    //Getters
     public String getDni() {
         return dni;
     }
