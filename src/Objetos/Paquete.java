@@ -31,23 +31,15 @@ public class Paquete implements Serializable {
     @JoinColumn(name = "id_reparto")
     private Reparto reparto;
 
-    public Paquete(int codigo, String descripcion, String destino) {
+    public Paquete(int codigo, String descripcion, String destino, Boolean entregado) {
         this.codigo = codigo;
         this.descripcion = descripcion;
         this.destino = destino;
-        this.entregado = false;
-        reparto = null;
-    }
-
-    public Paquete(String descripcion, String destino) {
-        this.descripcion = descripcion;
-        this.destino = destino;
-        this.entregado = false;
-        reparto = null;
+        this.entregado = entregado;
+        this.reparto = null;
     }
 
     public Paquete() {
-        super();
     }
 
     public int getCodigo() {
@@ -92,7 +84,7 @@ public class Paquete implements Serializable {
 
     @Override
     public String toString() {
-        return "Paquete{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", destino=" + destino + ", reparto=" + reparto + '}';
+        return "Paquete{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", destino=" + destino + ", reparto=" + reparto + " entregado =" + entregado + "}";
     }
 
 }

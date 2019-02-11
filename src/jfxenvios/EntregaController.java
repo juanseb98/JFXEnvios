@@ -6,7 +6,10 @@
 package jfxenvios;
 
 import Objetos.Paquete;
+import ajustesHibernate.HibernateUtil;
+import dao.GenericDAO;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +20,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  * FXML Controller class
@@ -24,6 +29,9 @@ import javafx.scene.input.MouseEvent;
  * @author sastian
  */
 public class EntregaController implements Initializable {
+
+    private static Session session;
+    private static GenericDAO genericDAO = new GenericDAO<>();
 
     @FXML
     private TableView<Paquete> tbPaqueteria;
@@ -46,6 +54,7 @@ public class EntregaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        configurarSesion();
         cargarDatosDeBD();
 
         tcId.setCellValueFactory(
@@ -64,27 +73,37 @@ public class EntregaController implements Initializable {
     private void entregarPaquete(MouseEvent event) {
         Paquete p = tbPaqueteria.getSelectionModel().getSelectedItem();
         p.setEntregado(true);
-        // TODO realizar actualizacion en paquete para marcar como entregado
+        genericDAO.guardar(p);
         cargarDatosDeBD();
     }
 
     private void cargarDatosDeBD() {
+        //select * from paquete p where p.id_reparto=(select id from reparto where dniCamionero = (Select dni from camionero where nombre ="juan")) and p.entregado = 0;
+        Query query = session.createQuery("SELECT c FROM Paquete c");
+        data = FXCollections.observableArrayList();
+
+        /*
+        List<Paquete> paquetes = query.list();
+        for (Paquete paquete : paquetes) {
+            data.add(paquete);
+            System.out.println(paquete);
+        }
+         */
         //TODO select * from paquete where entregado = 0;
         //select * from paquete p where p.id_reparto=(select id from reparto where dniCamionero = (Select dni from camionero where nombre ="juan")) and p.entregado = 0;
-        //data.add(p);
-        data = FXCollections.observableArrayList(
-                new Paquete(123, "Paquete grande", "Sevilla"),
-                new Paquete(456, "Paquete pequeño", "Malaga"),
-                new Paquete(789, "Paquete mediano", "Alcala"),
-                new Paquete(159, "Paquete diminuto", "Sevilla"),
-                new Paquete(753, "Paquete enorme", "Cadiz")
-        );
         cargarDatosTabla();
     }
 
     private void cargarDatosTabla() {
         tbPaqueteria.setItems(data);
         tbPaqueteria.getSelectionModel().selectFirst();
+    }
+
+    private static void configurarSesion() {
+        HibernateUtil.buildSessionFactory();
+        HibernateUtil.openSessionAndBindToThread();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+
     }
 
 }

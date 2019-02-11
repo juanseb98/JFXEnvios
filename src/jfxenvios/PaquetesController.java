@@ -63,11 +63,11 @@ public class PaquetesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         data = FXCollections.observableArrayList(
-                new Paquete(123, "Paquete grande", "Sevilla"),
-                new Paquete(456, "Paquete pequeño", "Malaga"),
-                new Paquete(789, "Paquete mediano", "Alcala"),
-                new Paquete(159, "Paquete diminuto", "Sevilla"),
-                new Paquete(753, "Paquete enorme", "Cadiz")
+                new Paquete(123, "Paquete grande", "Sevilla", false),
+                new Paquete(456, "Paquete pequeño", "Malaga", false),
+                new Paquete(789, "Paquete mediano", "Alcala", false),
+                new Paquete(159, "Paquete diminuto", "Sevilla", false),
+                new Paquete(753, "Paquete enorme", "Cadiz", false)
         );
 
         cargarComboBox();

@@ -26,11 +26,11 @@ public class Main {
             Camionero cam = new Camionero("20503879T", "password", "Juan", "Sevilla", 697366754, 1400.0);
             Camion cami = new Camion("123jdk", "Mercedes", 25.0, TipoCamion.Diesel);
 
-            Paquete a = new Paquete(123, "Paquete grande", "Sevilla");
-            Paquete b = new Paquete(456, "Paquete pequeño", "Malaga");
-            Paquete c = new Paquete(789, "Paquete mediano", "Alcala");
-            Paquete d = new Paquete(159, "Paquete diminuto", "Sevilla");
-            Paquete e = new Paquete(753, "Paquete enorme", "Cadiz");
+            Paquete a = new Paquete(123, "Paquete grande", "Sevilla", false);
+            Paquete b = new Paquete(456, "Paquete pequeño", "Malaga", false);
+            Paquete c = new Paquete(789, "Paquete mediano", "Alcala", false);
+            Paquete d = new Paquete(159, "Paquete diminuto", "Sevilla", false);
+            Paquete e = new Paquete(753, "Paquete enorme", "Cadiz", false);
 
             Date fecha = new Date();
             Reparto rep = new Reparto(cami, cam, fecha);
