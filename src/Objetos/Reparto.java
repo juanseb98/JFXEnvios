@@ -31,7 +31,7 @@ public class Reparto implements Serializable {
     private Date fecha;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name ="reparto")
+    @JoinColumn(name = "id_reparto")
     private List<Paquete> listaPaquetes;
 
     public Reparto(int identificador, Camion camion, Camionero camionero, Date fecha) {
@@ -41,20 +41,19 @@ public class Reparto implements Serializable {
         this.fecha = fecha;
         listaPaquetes = new ArrayList<Paquete>();
     }
-    
+
     public Reparto(Camion camion, Camionero camionero, Date fecha) {
         this.camion = camion;
         this.camionero = camionero;
         this.fecha = fecha;
         listaPaquetes = new ArrayList<Paquete>();
     }
-    
 
     public Reparto() {
-		super();
-	}
+        super();
+    }
 
-	//Getters
+    //Getters
     public int getIdentificador() {
         return identificador;
     }
@@ -96,10 +95,14 @@ public class Reparto implements Serializable {
         listaPaquetes.add(p);
     }
 
-	@Override
-	public String toString() {
-		return "Reparto [identificador=" + identificador + ", camion=" + camion + ", camionero=" + camionero
-				+ ", fecha=" + fecha + ", listaPaquetes=" + listaPaquetes + "]";
-	}
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Reparto{" + "identificador=" + identificador + ", camion=" + camion + ", camionero=" + camionero + ", fecha=" + fecha + "} paquetes: ");
+        for (Paquete paq : listaPaquetes) {
+            sb.append(paq);
+        }
+        return sb.toString();
+    }
 
 }

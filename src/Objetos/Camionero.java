@@ -104,4 +104,9 @@ public class Camionero implements Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Camionero{" + "dni=" + dni + ", nombre=" + nombre + ", pass=" + pass + ", poblacion=" + poblacion + ", tlfn=" + tlfn + ", salario=" + salario + '}';
+    }
+
 }

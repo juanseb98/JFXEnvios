@@ -84,7 +84,7 @@ public class Paquete implements Serializable {
 
     @Override
     public String toString() {
-        return "Paquete{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", destino=" + destino + ", reparto=" + reparto + " entregado =" + entregado + "}";
+        return "Paquete{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", destino=" + destino + ", entregado=" + entregado + '}';
     }
 
 }

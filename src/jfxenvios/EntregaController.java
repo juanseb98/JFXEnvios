@@ -82,13 +82,11 @@ public class EntregaController implements Initializable {
         Query query = session.createQuery("SELECT c FROM Paquete c");
         data = FXCollections.observableArrayList();
 
-        /*
         List<Paquete> paquetes = query.list();
         for (Paquete paquete : paquetes) {
             data.add(paquete);
-            System.out.println(paquete);
         }
-         */
+
         //TODO select * from paquete where entregado = 0;
         //select * from paquete p where p.id_reparto=(select id from reparto where dniCamionero = (Select dni from camionero where nombre ="juan")) and p.entregado = 0;
         cargarDatosTabla();
