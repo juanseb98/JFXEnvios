@@ -49,10 +49,12 @@ public class Main {
                 genericDAO.guardar(cam);
                 genericDAO.guardar(rep);
 
+                System.out.println("todo guardado");
+
             } else {
-                Query query = session.createQuery("SELECT c FROM Reparto c");
-                List<Reparto> paquetes = query.list();
-                for (Reparto paquete : paquetes) {
+                Query query = session.createQuery("SELECT c FROM Camionero c WHERE dni= '220'");
+                List<Camionero> paquetes = query.list();
+                for (Camionero paquete : paquetes) {
                     System.out.println(paquete);
                 }
             }

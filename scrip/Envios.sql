@@ -5,10 +5,11 @@ use envios;
 CREATE TABLE camionero(
 	dni VARCHAR(9)  NOT NULL,
 	nombre VARCHAR(20),
-    -- pwd VARCHAR(30),
+        pwd VARCHAR(30),
 	poblacion VARCHAR(15),
-	telefono INT,
+	telefono INT UNIQUE,
 	salario DOUBLE(7,2),
+        logueado TINYINT,
 	-- idx2 INTEGER,
 	CONSTRAINT PK_camionero PRIMARY KEY (dni)
 );

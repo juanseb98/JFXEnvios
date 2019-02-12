@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -29,11 +30,15 @@ public class Camionero implements Serializable {
     @Column(name = "poblacion")
     private String poblacion;
 
-    @Column(name = "telefono")
+    @Column(name = "telefono", unique = true)
     private int tlfn;
 
     @Column(name = "salario")
     private Double salario;
+
+    @Column(name = "logueado")
+    @Type(type = "boolean")
+    private Boolean logueado;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "dniCamionero")
@@ -46,6 +51,7 @@ public class Camionero implements Serializable {
         this.nombre = nombre;
         this.poblacion = poblacion;
         this.tlfn = tlfn;
+        this.logueado = false;
         setSalario(salario);
         repartos = new ArrayList<Reparto>();
     }
@@ -75,6 +81,14 @@ public class Camionero implements Serializable {
         return salario;
     }
 
+    public String getPass() {
+        return pass;
+    }
+
+    public Boolean getLogueado() {
+        return logueado;
+    }
+
     //Setters
     public void setDni(String dni) throws Exception {
         if (dni.matches("\\d{8}\\D")) {
@@ -102,6 +116,35 @@ public class Camionero implements Serializable {
         } else {
             throw new Exception("Salario no puede ser engativo");
         }
+    }
+
+    public void setLogueado() {
+        this.logueado = true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + this.tlfn;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Camionero other = (Camionero) obj;
+        if (this.tlfn != other.tlfn) {
+            return false;
+        }
+        return true;
     }
 
     @Override

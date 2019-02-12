@@ -46,7 +46,7 @@ public class FXMLDocumentController implements Initializable {
     //Futuro boton de loguear y desloguear
     @FXML
     private void Clear(MouseEvent event) {
-        borderPane.setCenter(null);
+        loadPantalla("Login");
     }
 
     @FXML
