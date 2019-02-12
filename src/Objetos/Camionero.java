@@ -122,6 +122,10 @@ public class Camionero implements Serializable {
         this.logueado = true;
     }
 
+    public void setDeslogueado() {
+        this.logueado = false;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;

@@ -17,17 +17,17 @@
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#Camiones" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: #f0f0f0;" text="Camiones">
+            <Button fx:id="btCamion" mnemonicParsing="false" onMouseClicked="#Camiones" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: #f0f0f0;" text="Camiones">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#Paquetes" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: #f0f0f0;" text="Paquetes">
+            <Button fx:id="btPaquete" mnemonicParsing="false" onMouseClicked="#Paquetes" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: #f0f0f0;" text="Paquetes">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#Entrega" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: #f0f0f0;" text="Entregar">
+            <Button fx:id="btEntrega" mnemonicParsing="false" onMouseClicked="#Entrega" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: #f0f0f0;" text="Entregar">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

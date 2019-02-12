@@ -5,7 +5,9 @@
  */
 package jfxenvios;
 
-import java.awt.Container;
+import Objetos.Camionero;
+import ajustesHibernate.HibernateUtil;
+import dao.GenericDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.hibernate.Session;
 
 /**
  *
@@ -26,14 +29,24 @@ import javafx.stage.Stage;
  */
 public class FXMLDocumentController implements Initializable {
 
+    private static Session session;
+    private static GenericDAO genericDAO = new GenericDAO<>();
+
     @FXML
     private BorderPane borderPane;
     @FXML
     private Button btTrabajando;
+    @FXML
+    private Button btCamion;
+    @FXML
+    private Button btPaquete;
+    @FXML
+    private Button btEntrega;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        configurarSesion();
+        comprobarLogueado();
     }
 
     @FXML
@@ -46,7 +59,16 @@ public class FXMLDocumentController implements Initializable {
     //Futuro boton de loguear y desloguear
     @FXML
     private void Clear(MouseEvent event) {
-        loadPantalla("Login");
+        Parent root = null;
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+            root = fxmlLoader.load();
+            LoginController ctr = fxmlLoader.getController();
+            ctr.setCtrPrincipal(this);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        borderPane.setCenter(root);
     }
 
     @FXML
@@ -80,6 +102,32 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         borderPane.setCenter(root);
+    }
+
+    public void activar(Boolean ac) {
+        btCamion.setVisible(ac);
+        btEntrega.setVisible(ac);
+        btPaquete.setVisible(ac);
+        btTrabajando.setVisible(ac);
+    }
+
+    public void comprobarLogueado() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Camionero cam = (Camionero) session.createQuery("SELECT c FROM Camionero c WHERE logueado= 1").uniqueResult();
+        if (cam == null) {
+            activar(false);
+        }
+    }
+
+    private static void configurarSesion() {
+        HibernateUtil.buildSessionFactory();
+        HibernateUtil.openSessionAndBindToThread();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+
     }
 
 }
