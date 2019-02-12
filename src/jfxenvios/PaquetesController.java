@@ -5,9 +5,14 @@
  */
 package jfxenvios;
 
+import Objetos.Camion;
+import Objetos.Camionero;
 import Objetos.Paquete;
 import Objetos.Reparto;
+import ajustesHibernate.HibernateUtil;
+import dao.GenericDAO;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,6 +29,8 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  * FXML Controller class
@@ -31,6 +38,9 @@ import javafx.scene.input.MouseEvent;
  * @author DAM-2
  */
 public class PaquetesController implements Initializable {
+
+    private static Session session;
+    private static GenericDAO genericDAO = new GenericDAO<>();
 
     @FXML
     private Button btPaqueteToReparto;
@@ -61,45 +71,61 @@ public class PaquetesController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        data = FXCollections.observableArrayList(
-                new Paquete(123, "Paquete grande", "Sevilla", false),
-                new Paquete(456, "Paquete pequeño", "Malaga", false),
-                new Paquete(789, "Paquete mediano", "Alcala", false),
-                new Paquete(159, "Paquete diminuto", "Sevilla", false),
-                new Paquete(753, "Paquete enorme", "Cadiz", false)
-        );
-
+        configurarSesion();
+        data = FXCollections.observableArrayList();
         cargarComboBox();
-
-        cargarTablaConPaquetes();
+        cargarDeDB();
 
     }
 
     @FXML
     private void aniadirPaqueteToReparto(MouseEvent event) {
         Paquete p = tbPaqueteria.getSelectionModel().getSelectedItem();
-        System.out.println(p);
-
-        //realizar actualizacion en reparto para añadir paquete
+        Reparto reparto = (Reparto) session.createQuery("SELECT r FROM Reparto r WHERE r.camionero = (SELECT c FROM Camionero c WHERE logueado= 1)").uniqueResult();
+        reparto.aniadirPaquete(p);
+        genericDAO.guardar(reparto);
+        //TODO realizar insert realizar actualizacion en reparto para añadir paquete
         data.remove(p);
+
         tbPaqueteria.setItems(data);
         tbPaqueteria.getSelectionModel().selectFirst();
     }
 
     private void rellenarDatos(String datos) {
+        Query query;
+        List<Paquete> paquetes;
         switch (datos) {
             case "Todos":
-                //TODO consultar tos los paquetes
-                System.out.println("todos");
+                query = session.createQuery("SELECT p FROM Paquete p");
+                data = FXCollections.observableArrayList();
+
+                paquetes = query.list();
+                for (Paquete paquete : paquetes) {
+                    data.add(paquete);
+                }
+
+                cargarTablaConPaquetes();
                 break;
             case "No entregados":
-                //TODO consultar tos los paquetes where entregado FALSE
-                System.out.println("No entregado");
+                query = session.createQuery("SELECT p FROM Paquete p WHERE entregado = 0");
+                data = FXCollections.observableArrayList();
+
+                paquetes = query.list();
+                for (Paquete paquete : paquetes) {
+                    data.add(paquete);
+                }
+                cargarTablaConPaquetes();
+
                 break;
             case "Entregados":
-                //TODO consultar tos los paquetes where entregado TRUE
-                System.out.println("Entregados");
+                query = session.createQuery("SELECT p FROM Paquete p WHERE entregado = 1");
+                data = FXCollections.observableArrayList();
+
+                paquetes = query.list();
+                for (Paquete paquete : paquetes) {
+                    data.add(paquete);
+                }
+                cargarTablaConPaquetes();
                 break;
         }
     }
@@ -122,6 +148,40 @@ public class PaquetesController implements Initializable {
         });
     }
 
+    private void setDobleClickFila() {
+        tbPaqueteria.setRowFactory(tv -> {
+            TableRow<Paquete> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Paquete rowData = row.getItem();
+                    //TODO Mostrar mas informacion de paquete en otra ventana
+                    System.out.println("Paquete seleccionado: " + rowData.getDescripcion());
+                }
+            });
+            return row;
+        });
+    }
+
+    private static void configurarSesion() {
+        HibernateUtil.buildSessionFactory();
+        HibernateUtil.openSessionAndBindToThread();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+    }
+
+    private void cargarDeDB() {
+        //TODO plantear obtener paquetes que no esten en reparto
+        Query query = session.createQuery("SELECT p FROM Paquete p WHERE entregado = 0");
+        data = FXCollections.observableArrayList();
+
+        List<Paquete> paquetes = query.list();
+        for (Paquete paquete : paquetes) {
+            data.add(paquete);
+        }
+
+        cargarTablaConPaquetes();
+    }
+
     private void cargarTablaConPaquetes() {
         tcId.setCellValueFactory(
                 new PropertyValueFactory<Paquete, String>("codigo"));
@@ -137,20 +197,6 @@ public class PaquetesController implements Initializable {
 
         //futura implementacion
         //setDobleClickFila();
-    }
-
-    private void setDobleClickFila() {
-        tbPaqueteria.setRowFactory(tv -> {
-            TableRow<Paquete> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Paquete rowData = row.getItem();
-                    //TODO Mostrar mas informacion de paquete en otra ventana
-                    System.out.println("Paquete seleccionado: " + rowData.getDescripcion());
-                }
-            });
-            return row;
-        });
     }
 
 }
