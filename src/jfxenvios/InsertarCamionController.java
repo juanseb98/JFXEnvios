@@ -7,6 +7,7 @@ package jfxenvios;
 
 import Objetos.Camion;
 import Objetos.TipoCamion;
+import dao.GenericDAO;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -28,6 +29,8 @@ import javafx.stage.Stage;
  * @author sastian
  */
 public class InsertarCamionController implements Initializable {
+
+    private static GenericDAO genericDAO = new GenericDAO<>();
 
     @FXML
     private Button btInsertar;
@@ -54,7 +57,7 @@ public class InsertarCamionController implements Initializable {
         txPotencia.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d{0,2}([\\.]\\d{0,2})?")) {
                     txPotencia.setText(oldValue);
                 }
             }
@@ -78,9 +81,7 @@ public class InsertarCamionController implements Initializable {
 
             Camion c = new Camion(matricula, modelo, potencia, TipoCamion.valueOf(tipo));
 
-            //TODO Realizar insert en Camion hibernate
-            //futuro metodo actualizar tabla
-            ctr.insertarCamion(c);
+            genericDAO.guardar(c);
 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Insertado con exito");
@@ -93,7 +94,7 @@ public class InsertarCamionController implements Initializable {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error al insertar");
-            alert.setContentText("Deben estar todos los datos rellenos");
+            alert.setContentText("Deben estar todos los datos rellenos \n y el camion no ha de estar ya registrado");
 
             alert.showAndWait();
         }

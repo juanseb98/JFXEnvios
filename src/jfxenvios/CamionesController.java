@@ -8,10 +8,13 @@ package jfxenvios;
 import Objetos.Camion;
 import Objetos.Camionero;
 import Objetos.Reparto;
-import Objetos.TipoCamion;
+import ajustesHibernate.HibernateUtil;
+import dao.GenericDAO;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,12 +25,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  * FXML Controller class
@@ -35,6 +43,9 @@ import javafx.stage.Stage;
  * @author DAM-2
  */
 public class CamionesController implements Initializable {
+
+    private static Session session;
+    private static GenericDAO genericDAO = new GenericDAO<>();
 
     @FXML
     private Button btSeleccionar;
@@ -62,35 +73,45 @@ public class CamionesController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        data = FXCollections.observableArrayList(
-                new Camion("123hjk", "Mercedes", 20.5, TipoCamion.Diesel),
-                new Camion("798asd", "BMW", 15.5, TipoCamion.Gasolina),
-                new Camion("156dsa", "Renault", 30.0, TipoCamion.Diesel),
-                new Camion("156njk", "Mercedes", 60.5, TipoCamion.Gasolina),
-                new Camion("365phb", "Seat", 26.3, TipoCamion.Diesel)
-        );
+        configurarSesion();
+        cargarDeDB();
 
-        tcMatricula.setCellValueFactory(
-                new PropertyValueFactory<Camion, String>("matricula"));
-        tcModelo.setCellValueFactory(
-                new PropertyValueFactory<Camion, String>("Modelo"));
-        tcTipo.setCellValueFactory(
-                new PropertyValueFactory<Camion, String>("tipo"));
-        tcPotencia.setCellValueFactory(
-                new PropertyValueFactory<Camion, String>("potencia"));
-
-        tablaCamiones.setItems(data);
-        tablaCamiones.getSelectionModel().selectFirst();
     }
 
     @FXML
     private void seleccionarCamion(MouseEvent event) {
-        Camion cam = tablaCamiones.getSelectionModel().getSelectedItem();
+        Boolean trabajando = false;
+
+        Camionero cami = (Camionero) session.createQuery("SELECT c FROM Camionero c WHERE logueado= 1").uniqueResult();
         Date fecha = new Date();
-        Camionero cami = new Camionero();
-        Reparto rep = new Reparto(cam, cami, fecha);
-        // TODO Realizar insert en la tabla Reparto con un camionero y cam
-        System.out.println(cam.toString());
+        String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
+
+        Query query = session.createQuery("SELECT c FROM Camionero c WHERE c IN(SELECT r.camionero FROM Reparto r WHERE r.fecha='" + fech + "')");
+        List<Camionero> camioneros = query.list();
+        for (Camionero camionero : camioneros) {
+            if (camionero.getDni().equals(cami.getDni())) {
+                trabajando = true;
+            }
+        }
+
+        if (!trabajando) {
+            Camion cam = tablaCamiones.getSelectionModel().getSelectedItem();
+
+            Reparto rep = new Reparto(cam, cami, fecha);
+            genericDAO.guardar(rep);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Trabajando");
+            alert.setHeaderText(null);
+            alert.setContentText("Vaya a Paquetes para escoger paquetes a repartir");
+
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Ya se le ha asignado un camion hoy");
+            alert.showAndWait();
+        }
+
     }
 
     //Futuro actualizar tabla
@@ -117,11 +138,46 @@ public class CamionesController implements Initializable {
             camionctr.setCamionesController(this);
             camionctr.setStage(stage);
 
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(CamionesController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //TODO obtener camiones de nuevo
+        cargarDeDB();
+    }
+
+    private static void configurarSesion() {
+        HibernateUtil.buildSessionFactory();
+        HibernateUtil.openSessionAndBindToThread();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+    }
+
+    private void cargarDeDB() {
+        //select * from camion where matricula not in (select matriculaCamion from reparto);
+        Query query = session.createQuery("SELECT c FROM Camion c WHERE c NOT IN(SELECT r.camion FROM Reparto r)");
+        data = FXCollections.observableArrayList();
+
+        List<Camion> camiones = query.list();
+        for (Camion camion : camiones) {
+            data.add(camion);
+        }
+
+        cargartabla();
+    }
+
+    private void cargartabla() {
+        tcMatricula.setCellValueFactory(
+                new PropertyValueFactory<Camion, String>("matricula"));
+        tcModelo.setCellValueFactory(
+                new PropertyValueFactory<Camion, String>("Modelo"));
+        tcTipo.setCellValueFactory(
+                new PropertyValueFactory<Camion, String>("tipo"));
+        tcPotencia.setCellValueFactory(
+                new PropertyValueFactory<Camion, String>("potencia"));
+
+        tablaCamiones.setItems(data);
+        tablaCamiones.getSelectionModel().selectFirst();
     }
 
 }
