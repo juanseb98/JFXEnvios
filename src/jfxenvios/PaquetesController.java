@@ -61,8 +61,6 @@ public class PaquetesController implements Initializable {
 
     private ObservableList<Paquete> data;
 
-    private Reparto rep;
-
     @FXML
     private RadioButton rbTodos;
     @FXML
@@ -95,7 +93,6 @@ public class PaquetesController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText("Hoy no has seleccionado transporte");
             alert.setContentText("Antes de escoger los paquetes a repartir debes \nseleccionar que transporte quieres usar");
-
             alert.showAndWait();
         } else {
             Reparto reparto = repartos.get(0);
