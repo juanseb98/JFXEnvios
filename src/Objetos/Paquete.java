@@ -15,6 +15,7 @@ public class Paquete implements Serializable {
 
     @Id
     @Column(name = "codigo")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int codigo;
 
     @Column(name = "descripcion")
@@ -31,8 +32,7 @@ public class Paquete implements Serializable {
     @JoinColumn(name = "id_reparto")
     private Reparto reparto;
 
-    public Paquete(int codigo, String descripcion, String destino, Boolean entregado) {
-        this.codigo = codigo;
+    public Paquete(String descripcion, String destino, Boolean entregado) {
         this.descripcion = descripcion;
         this.destino = destino;
         this.entregado = entregado;

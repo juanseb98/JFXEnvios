@@ -17,6 +17,7 @@ public class Reparto implements Serializable {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int identificador;
 
     @ManyToOne
@@ -33,14 +34,6 @@ public class Reparto implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_reparto")
     private List<Paquete> listaPaquetes;
-
-    public Reparto(int identificador, Camion camion, Camionero camionero, Date fecha) {
-        this.identificador = identificador;
-        this.camion = camion;
-        this.camionero = camionero;
-        this.fecha = fecha;
-        listaPaquetes = new ArrayList<Paquete>();
-    }
 
     public Reparto(Camion camion, Camionero camionero, Date fecha) {
         this.camion = camion;

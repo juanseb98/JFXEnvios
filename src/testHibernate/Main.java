@@ -31,11 +31,11 @@ public class Main {
             Camion cami2 = new Camion("235dse", "Cadilac", 30.0, TipoCamion.Gasolina);
             Camion cami3 = new Camion("156red", "Toledo", 50.0, TipoCamion.Electrico);
 
-            Paquete a = new Paquete(123, "Paquete grande", "Sevilla", false);
-            Paquete b = new Paquete(456, "Paquete pequeño", "Malaga", false);
-            Paquete c = new Paquete(789, "Paquete mediano", "Alcala", false);
-            Paquete d = new Paquete(159, "Paquete diminuto", "Sevilla", false);
-            Paquete e = new Paquete(753, "Paquete enorme", "Cadiz", false);
+            Paquete a = new Paquete("Paquete grande", "Sevilla", false);
+            Paquete b = new Paquete("Paquete pequeño", "Malaga", false);
+            Paquete c = new Paquete("Paquete mediano", "Alcala", false);
+            Paquete d = new Paquete("Paquete diminuto", "Sevilla", false);
+            Paquete e = new Paquete("Paquete enorme", "Cadiz", false);
 
             Date fecha1 = new Date();
             Reparto rep = new Reparto(cami1, cam1, fecha1);
