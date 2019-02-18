@@ -46,6 +46,7 @@ public class CamionesController implements Initializable {
 
     private static Session session;
     private static GenericDAO genericDAO = new GenericDAO<>();
+    private static FXMLDocumentController ctrPrincipal = new FXMLDocumentController();
 
     @FXML
     private Button btSeleccionar;
@@ -178,6 +179,10 @@ public class CamionesController implements Initializable {
 
         tablaCamiones.setItems(data);
         tablaCamiones.getSelectionModel().selectFirst();
+    }
+
+    void setCtrPrincipal(FXMLDocumentController aThis) {
+        this.ctrPrincipal = aThis;
     }
 
 }

@@ -66,7 +66,7 @@ public class LoginController implements Initializable {
                 tfPsw.setEditable(false);
                 btLogin.setVisible(false);
                 btDesloguear.setVisible(true);
-                ctrPrincipal.activar(true);
+                ctrPrincipal.activarLogin(true);
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
@@ -87,8 +87,7 @@ public class LoginController implements Initializable {
         tfPsw.setEditable(true);
         btLogin.setVisible(true);
         btDesloguear.setVisible(false);
-
-        ctrPrincipal.activar(false);
+        ctrPrincipal.activarLogin(false);
 
     }
 

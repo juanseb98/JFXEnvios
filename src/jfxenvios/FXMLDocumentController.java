@@ -10,6 +10,9 @@ import ajustesHibernate.HibernateUtil;
 import dao.GenericDAO;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -73,7 +77,16 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void Camiones(MouseEvent event) {
-        loadPantalla("Camiones");
+        Parent root = null;
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Camiones.fxml"));
+            root = fxmlLoader.load();
+            CamionesController ctr = fxmlLoader.getController();
+            ctr.setCtrPrincipal(this);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        borderPane.setCenter(root);
     }
 
     @FXML
@@ -104,11 +117,30 @@ public class FXMLDocumentController implements Initializable {
         borderPane.setCenter(root);
     }
 
-    public void activar(Boolean ac) {
+    public void activarLogin(Boolean ac) {
         btCamion.setVisible(ac);
+
         btEntrega.setVisible(ac);
         btPaquete.setVisible(ac);
         btTrabajando.setVisible(ac);
+    }
+
+    public void activarLogin(Boolean ac, Camionero ca) {
+        btCamion.setVisible(ac);
+
+        Date fecha = new Date();
+        String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
+
+        Query query = session.createQuery("SELECT c FROM Camionero c WHERE c IN(SELECT r.camionero FROM Reparto r WHERE r.fecha='" + fech + "')");
+        List<Camionero> camioneros = query.list();
+        for (Camionero camionero : camioneros) {
+            if (camionero.getDni().equals(ca.getDni())) {
+                btEntrega.setVisible(ac);
+                btPaquete.setVisible(ac);
+                btTrabajando.setVisible(ac);
+            }
+        }
+
     }
 
     public void comprobarLogueado() {
@@ -119,7 +151,7 @@ public class FXMLDocumentController implements Initializable {
         }
         Camionero cam = (Camionero) session.createQuery("SELECT c FROM Camionero c WHERE logueado= 1").uniqueResult();
         if (cam == null) {
-            activar(false);
+            activarLogin(false);
         }
     }
 

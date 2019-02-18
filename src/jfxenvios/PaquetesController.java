@@ -12,6 +12,8 @@ import Objetos.Reparto;
 import ajustesHibernate.HibernateUtil;
 import dao.GenericDAO;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -20,6 +22,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -81,14 +85,28 @@ public class PaquetesController implements Initializable {
     @FXML
     private void aniadirPaqueteToReparto(MouseEvent event) {
         Paquete p = tbPaqueteria.getSelectionModel().getSelectedItem();
-        Reparto reparto = (Reparto) session.createQuery("SELECT r FROM Reparto r WHERE r.camionero = (SELECT c FROM Camionero c WHERE logueado= 1)").uniqueResult();
-        reparto.aniadirPaquete(p);
-        genericDAO.guardar(reparto);
-        //TODO realizar insert realizar actualizacion en reparto para añadir paquete
-        data.remove(p);
+        Date fecha = new Date();
+        String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
+        Query query = session.createQuery("SELECT r FROM Reparto r WHERE r.camionero = "
+                + "(SELECT c FROM Camionero c WHERE logueado= 1) AND r.fecha='" + fech + "'");
+        List<Reparto> repartos = query.list();
+        if (repartos.size() != 1) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Hoy no has seleccionado transporte");
+            alert.setContentText("Antes de escoger los paquetes a repartir debes \nseleccionar que transporte quieres usar");
 
-        tbPaqueteria.setItems(data);
-        tbPaqueteria.getSelectionModel().selectFirst();
+            alert.showAndWait();
+        } else {
+            Reparto reparto = repartos.get(0);
+            reparto.aniadirPaquete(p);
+            genericDAO.guardar(reparto);
+            //TODO realizar insert realizar actualizacion en reparto para añadir paquete
+
+            tbPaqueteria.setItems(data);
+            tbPaqueteria.getSelectionModel().selectFirst();
+        }
+
     }
 
     private void rellenarDatos(String datos) {
