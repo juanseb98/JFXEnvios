@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -23,12 +26,16 @@ public class Camion {
 
     @Id
     @Column(name = "matricula")
+    @NotNull
+    @Size(min = 7, max = 7)
     private String matricula;
 
     @Column(name = "modelo")
+    @Size(min = 2, max = 15)
     private String Modelo;
 
     @Column(name = "potencia")
+    @Digits(integer = 2, fraction = 2)
     private double potencia;
 
     @Enumerated(EnumType.STRING)

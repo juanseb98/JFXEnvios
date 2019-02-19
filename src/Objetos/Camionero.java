@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -19,12 +22,16 @@ public class Camionero implements Serializable {
 
     @Id
     @Column(name = "dni")
+    @NotNull
     private String dni;
 
     @Column(name = "nombre")
+    @NotBlank
+    @Size(min = 3, max = 17)
     private String nombre;
 
     @Column(name = "pwd")
+    @Size(min = 5, max = 25)
     private String pass;
 
     @Column(name = "poblacion")

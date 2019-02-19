@@ -62,6 +62,15 @@ public class InsertarCamionController implements Initializable {
                 }
             }
         });
+
+        txMatricula.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,4}\\D{0,3}")) {
+                    txMatricula.setText(oldValue);
+                }
+            }
+        });
     }
 
     @FXML

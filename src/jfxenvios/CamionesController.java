@@ -68,6 +68,8 @@ public class CamionesController implements Initializable {
     private double x, y;
     @FXML
     private Button btInsertar;
+    @FXML
+    private Button btEliminar;
 
     /**
      * Initializes the controller class.
@@ -185,6 +187,17 @@ public class CamionesController implements Initializable {
 
     void setCtrPrincipal(FXMLDocumentController aThis) {
         this.ctrPrincipal = aThis;
+    }
+
+    @FXML
+    private void eliminar(MouseEvent event) {
+        Camion cam = tablaCamiones.getSelectionModel().getSelectedItem();
+        try {
+            genericDAO.borrar(cam);
+        } catch (Exception ex) {
+            Logger.getLogger(CamionesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cargarDeDB();
     }
 
 }
