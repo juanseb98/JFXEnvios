@@ -32,7 +32,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btTrabajando" mnemonicParsing="false" onMouseClicked="#trabajadoresActuales" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: #f0f0f0;" text="Trabajando" />
+            <Button fx:id="btTrabajando" mnemonicParsing="false" onMouseClicked="#trabajadoresActuales" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: #f0f0f0;" text="paqueteria" />
          </children>
          <BorderPane.margin>
             <Insets right="3.0" />

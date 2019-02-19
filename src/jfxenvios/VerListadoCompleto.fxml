@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #303030;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jfxenvios.VerListadoCompletoController">
    <children>
-      <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <TableView fx:id="tbPaqueteria" layoutX="62.0" layoutY="74.0" prefHeight="253.0" prefWidth="476.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+            <TableColumn fx:id="tcId" editable="false" prefWidth="65.0" resizable="false" sortable="false" text="ID" />
+          <TableColumn fx:id="tcdescripcion" editable="false" prefWidth="211.0" resizable="false" sortable="false" text="Descripcion" />
+          <TableColumn fx:id="tcDestino" editable="false" prefWidth="112.0" resizable="false" sortable="false" text="Destino" />
+            <TableColumn fx:id="tcEntregado" editable="false" prefWidth="87.0" resizable="false" sortable="false" text="Entregado" />
         </columns>
       </TableView>
+      <Text layoutX="62.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-size: 20 px;" text="Lista completa de paquetes" />
+      <RadioButton fx:id="rbTodos" layoutX="132.0" layoutY="46.0" mnemonicParsing="false" selected="true" style="-fx-text-fill: white;" text="Todos" />
+      <RadioButton fx:id="rbNoEntregados" layoutX="195.0" layoutY="46.0" mnemonicParsing="false" style="-fx-text-fill: white;" text="No entregados" />
+      <RadioButton fx:id="rbEntregados" layoutX="307.0" layoutY="46.0" mnemonicParsing="false" style="-fx-text-fill: white;" text="Entregados" />
    </children>
-</HBox>
+</AnchorPane>

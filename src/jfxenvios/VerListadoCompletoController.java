@@ -22,7 +22,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -39,13 +38,11 @@ import org.hibernate.Session;
  *
  * @author DAM-2
  */
-public class PaquetesController implements Initializable {
+public class VerListadoCompletoController implements Initializable {
 
     private static Session session;
     private static GenericDAO genericDAO = new GenericDAO<>();
 
-    @FXML
-    private Button btPaqueteToReparto;
     @FXML
     private TableView<Paquete> tbPaqueteria;
     @FXML
@@ -59,6 +56,13 @@ public class PaquetesController implements Initializable {
 
     private ObservableList<Paquete> data;
 
+    @FXML
+    private RadioButton rbTodos;
+    @FXML
+    private RadioButton rbNoEntregados;
+    @FXML
+    private RadioButton rbEntregados;
+
     /**
      * Initializes the controller class.
      */
@@ -66,11 +70,11 @@ public class PaquetesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configurarSesion();
         data = FXCollections.observableArrayList();
+        cargarComboBox();
         cargarDeDB();
 
     }
 
-    @FXML
     private void aniadirPaqueteToReparto(MouseEvent event) {
         Paquete p = tbPaqueteria.getSelectionModel().getSelectedItem();
         Date fecha = new Date();
@@ -88,12 +92,69 @@ public class PaquetesController implements Initializable {
             Reparto reparto = repartos.get(0);
             reparto.aniadirPaquete(p);
             genericDAO.guardar(reparto);
+            //TODO realizar insert realizar actualizacion en reparto para añadir paquete
 
-            cargarDeDB();
             tbPaqueteria.setItems(data);
             tbPaqueteria.getSelectionModel().selectFirst();
         }
 
+    }
+
+    private void rellenarDatos(String datos) {
+        Query query;
+        List<Paquete> paquetes;
+        switch (datos) {
+            case "Todos":
+                query = session.createQuery("SELECT p FROM Paquete p");
+                data = FXCollections.observableArrayList();
+
+                paquetes = query.list();
+                for (Paquete paquete : paquetes) {
+                    data.add(paquete);
+                }
+
+                cargarTablaConPaquetes();
+                break;
+            case "No entregados":
+                query = session.createQuery("SELECT p FROM Paquete p WHERE entregado = 0");
+                data = FXCollections.observableArrayList();
+
+                paquetes = query.list();
+                for (Paquete paquete : paquetes) {
+                    data.add(paquete);
+                }
+                cargarTablaConPaquetes();
+
+                break;
+            case "Entregados":
+                query = session.createQuery("SELECT p FROM Paquete p WHERE entregado = 1");
+                data = FXCollections.observableArrayList();
+
+                paquetes = query.list();
+                for (Paquete paquete : paquetes) {
+                    data.add(paquete);
+                }
+                cargarTablaConPaquetes();
+                break;
+        }
+    }
+
+    private void cargarComboBox() {
+        ToggleGroup group = new ToggleGroup();
+        rbEntregados.setToggleGroup(group);
+        rbNoEntregados.setToggleGroup(group);
+        rbTodos.setToggleGroup(group);
+
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                if (group.getSelectedToggle() != null) {
+                    RadioButton sel = (RadioButton) group.getSelectedToggle();
+                    rellenarDatos(sel.getText());
+
+                }
+            }
+        });
     }
 
     private void setDobleClickFila() {
@@ -118,8 +179,7 @@ public class PaquetesController implements Initializable {
     }
 
     private void cargarDeDB() {
-        //TODO plantear obtener paquetes que no esten en reparto
-        Query query = session.createQuery("SELECT p FROM Paquete p WHERE p.reparto is NULL");
+        Query query = session.createQuery("SELECT p FROM Paquete p");
         data = FXCollections.observableArrayList();
 
         List<Paquete> paquetes = query.list();

@@ -156,7 +156,9 @@ public class CamionesController implements Initializable {
 
     private void cargarDeDB() {
         //select * from camion where matricula not in (select matriculaCamion from reparto);
-        Query query = session.createQuery("SELECT c FROM Camion c WHERE c NOT IN(SELECT r.camion FROM Reparto r)");
+        Date fecha = new Date();
+        String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
+        Query query = session.createQuery("SELECT c FROM Camion c WHERE c NOT IN(SELECT r.camion FROM Reparto r WHERE r.fecha='" + fech + "')");
         data = FXCollections.observableArrayList();
 
         List<Camion> camiones = query.list();
