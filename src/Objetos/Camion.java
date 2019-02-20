@@ -27,7 +27,7 @@ public class Camion {
     @Id
     @Column(name = "matricula")
     @NotNull
-    @Size(min = 7, max = 7)
+    @Size(max = 7)
     private String matricula;
 
     @Column(name = "modelo")

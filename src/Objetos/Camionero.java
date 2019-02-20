@@ -31,20 +31,25 @@ public class Camionero implements Serializable {
     private String nombre;
 
     @Column(name = "pwd")
+    @NotNull
     @Size(min = 5, max = 25)
     private String pass;
 
     @Column(name = "poblacion")
+    @NotNull
     private String poblacion;
 
     @Column(name = "telefono", unique = true)
+    @NotNull
     private int tlfn;
 
     @Column(name = "salario")
+    @NotNull
     private Double salario;
 
     @Column(name = "logueado")
     @Type(type = "boolean")
+    @NotNull
     private Boolean logueado;
 
     @OneToMany(cascade = CascadeType.ALL)

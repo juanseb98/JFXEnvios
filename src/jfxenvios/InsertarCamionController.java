@@ -89,22 +89,28 @@ public class InsertarCamionController implements Initializable {
             System.out.println("matricula " + matricula + " modelo " + modelo + " tipo " + tipo + " potencia " + potencia);
 
             Camion c = new Camion(matricula, modelo, potencia, TipoCamion.valueOf(tipo));
-
+            try{
             genericDAO.guardar(c);
-
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Insertado con exito");
             alert.setHeaderText(null);
             alert.setContentText("Camion con matricula " + matricula + " insertado con exito");
-
             alert.showAndWait();
             stage.close();
+            
+            }catch(javax.validation.ConstraintViolationException e){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al insertar");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+            }
+            
         } catch (RuntimeException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error al insertar");
             alert.setContentText("Deben estar todos los datos rellenos \n y el camion no ha de estar ya registrado");
-
             alert.showAndWait();
         }
 

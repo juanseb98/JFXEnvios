@@ -12,6 +12,7 @@ import Objetos.Paquete;
 import Objetos.Reparto;
 import Objetos.TipoCamion;
 import ajustesHibernate.HibernateUtil;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import dao.GenericDAO;
 import java.text.SimpleDateFormat;
 
@@ -26,10 +27,11 @@ public class Main {
         try {
             Camionero cam1 = new Camionero("20503879T", "password", "Juan", "Sevilla", 697366754, 1400.0);
             Camionero cam2 = new Camionero("12345678A", "password", "Pedro", "Sevilla", 685965365, 1500.0);
+            Camionero cam3 = new Camionero("78945612A", "password", "Antonio", "Malaga", 697366754, 1632.0);
 
-            Camion cami1 = new Camion("123jdk", "Mercedes", 25.0, TipoCamion.Diesel);
-            Camion cami2 = new Camion("235dse", "Cadilac", 30.0, TipoCamion.Gasolina);
-            Camion cami3 = new Camion("156red", "Toledo", 50.0, TipoCamion.Electrico);
+            Camion cami1 = new Camion("1234jdk", "Mercedes", 25.0, TipoCamion.Diesel);
+            Camion cami2 = new Camion("2356dse", "Cadilac", 30.0, TipoCamion.Gasolina);
+            Camion cami3 = new Camion("1568red", "Toledo", 50.0, TipoCamion.Electrico);
 
             Paquete a = new Paquete("Paquete grande", "Sevilla", false);
             Paquete b = new Paquete("Paquete pequeño", "Malaga", false);
@@ -56,16 +58,22 @@ public class Main {
                 genericDAO.guardar(cami3);
                 System.err.println("camion entregados");
 
+                
                 genericDAO.guardar(cam1);
                 genericDAO.guardar(cam2);
-                System.err.println("camionero entregados");
+                genericDAO.guardar(cam3);
+                
+                
+                System.err.println("camionero entregados");   
+                        
+                
 
                 genericDAO.guardar(rep);
                 System.err.println("reparto entregados");
 
                 System.out.println("todo guardado");
 
-            } else {
+            } else if(opc == 2){
                 Camionero cami = (Camionero) session.createQuery("SELECT c FROM Camionero c WHERE logueado= 1").uniqueResult();
                 System.out.println("###################################");
                 System.out.println(cami);
@@ -81,6 +89,10 @@ public class Main {
                     System.out.println(camionero.getDni());
                 }
 
+            }else{
+                
+                genericDAO.guardar(cam3);
+                System.err.println("camion entregados");
             }
 
         } catch (Exception e) {
