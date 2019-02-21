@@ -7,24 +7,24 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 import javax.validation.ConstraintViolationException;
 
 public class GenericDAO<T> {
-	public void guardar(T entidad) throws MySQLIntegrityConstraintViolationException{
 
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-               
-		session.saveOrUpdate(entidad);
-                
-		session.getTransaction().commit();
+    public void guardar(T entidad) {
 
-	}
-	
-	public  void borrar(T entidad) throws Exception{
-		
-		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.delete(entidad);
-		session.getTransaction().commit();
-	}
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        session.saveOrUpdate(entidad);
+
+        session.getTransaction().commit();
+
+    }
+
+    public void borrar(T entidad) throws Exception {
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.delete(entidad);
+        session.getTransaction().commit();
+    }
 
 }

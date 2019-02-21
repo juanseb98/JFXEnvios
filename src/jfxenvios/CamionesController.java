@@ -9,6 +9,7 @@ import Objetos.Camion;
 import Objetos.Camionero;
 import Objetos.Reparto;
 import ajustesHibernate.HibernateUtil;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import dao.GenericDAO;
 import java.io.IOException;
 import java.net.URL;
@@ -82,7 +83,7 @@ public class CamionesController implements Initializable {
     }
 
     @FXML
-    private void seleccionarCamion(MouseEvent event) {
+    private void seleccionarCamion(MouseEvent event) throws MySQLIntegrityConstraintViolationException {
         Boolean trabajando = false;
 
         Camionero cami = (Camionero) session.createQuery("SELECT c FROM Camionero c WHERE logueado= 1").uniqueResult();

@@ -35,7 +35,7 @@ CREATE TABLE reparto(
 
 CREATE TABLE paquete(
 	codigo INT AUTO_INCREMENT NOT NULL,
-	descripcion VARCHAR(20),
+	descripcion VARCHAR(30),
 	destino VARCHAR(15),
 	entregado TINYINT,
 	id_reparto INT,

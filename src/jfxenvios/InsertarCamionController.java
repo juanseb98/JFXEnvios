@@ -7,9 +7,12 @@ package jfxenvios;
 
 import Objetos.Camion;
 import Objetos.TipoCamion;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import dao.GenericDAO;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -89,23 +92,23 @@ public class InsertarCamionController implements Initializable {
             System.out.println("matricula " + matricula + " modelo " + modelo + " tipo " + tipo + " potencia " + potencia);
 
             Camion c = new Camion(matricula, modelo, potencia, TipoCamion.valueOf(tipo));
-            try{
-            genericDAO.guardar(c);
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Insertado con exito");
-            alert.setHeaderText(null);
-            alert.setContentText("Camion con matricula " + matricula + " insertado con exito");
-            alert.showAndWait();
-            stage.close();
-            
-            }catch(javax.validation.ConstraintViolationException e){
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error al insertar");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            try {
+                genericDAO.guardar(c);
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Insertado con exito");
+                alert.setHeaderText(null);
+                alert.setContentText("Camion con matricula " + matricula + " insertado con exito");
+                alert.showAndWait();
+                stage.close();
+
+            } catch (javax.validation.ConstraintViolationException e) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error al insertar");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
             }
-            
+
         } catch (RuntimeException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
