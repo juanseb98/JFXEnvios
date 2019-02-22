@@ -41,7 +41,7 @@ public class Camion {
     @Enumerated(EnumType.STRING)
     private TipoCamion tipo;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(name = "matriculaCamion")
     //@IndexColumn(name = "idx1")
     private List<Reparto> repartos;

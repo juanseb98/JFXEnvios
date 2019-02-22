@@ -115,7 +115,7 @@ public class CamionesController implements Initializable {
             alert.setHeaderText("Ya se le ha asignado un camion hoy");
             alert.showAndWait();
         }
-
+        cargarDeDB();
     }
 
     //Futuro actualizar tabla

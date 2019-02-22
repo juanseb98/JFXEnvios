@@ -9,6 +9,8 @@ import Objetos.Paquete;
 import ajustesHibernate.HibernateUtil;
 import dao.GenericDAO;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -78,7 +80,9 @@ public class EntregaController implements Initializable {
     }
 
     private void cargarDatosDeBD() {
-        Query query = session.createQuery("SELECT p FROM Paquete p WHERE p.reparto=(SELECT r FROM Reparto r WHERE r.camionero = (SELECT c FROM Camionero c WHERE c.logueado=1)) AND p.entregado=0");
+        Date fecha = new Date();
+        String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
+        Query query = session.createQuery("SELECT p FROM Paquete p WHERE p.reparto=(SELECT r FROM Reparto r WHERE r.camionero = (SELECT c FROM Camionero c WHERE c.logueado=1) AND r.fecha='" + fech + "') AND p.entregado=0");
         data = FXCollections.observableArrayList();
 
         List<Paquete> paquetes = query.list();

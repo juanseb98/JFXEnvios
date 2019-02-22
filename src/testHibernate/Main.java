@@ -15,6 +15,8 @@ import ajustesHibernate.HibernateUtil;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import dao.GenericDAO;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Main {
 
