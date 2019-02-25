@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jfxenvios;
 
 import Objetos.Paquete;
@@ -26,9 +21,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
- * FXML Controller class
+ * Controlador encargado de realizar todas las consultas y acciones de la
+ * ventana de Entrega en la aplicacion
  *
- * @author sastian
+ * @author Juan Sebastian Gonzalez Sanchez
  */
 public class EntregaController implements Initializable {
 
@@ -52,7 +48,7 @@ public class EntregaController implements Initializable {
     private ObservableList<Paquete> data;
 
     /**
-     * Initializes the controller class.
+     * Metodo encargado de realizar los siguientes pasos al inicializar
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,14 +67,28 @@ public class EntregaController implements Initializable {
         cargarDatosTabla();
     }
 
+    /**
+     * Metodo encargado de actualizar el estado de entregado a true del paquete
+     * seleccionado
+     *
+     * @param event
+     */
     @FXML
     private void entregarPaquete(MouseEvent event) {
         Paquete p = tbPaqueteria.getSelectionModel().getSelectedItem();
-        p.setEntregado(true);
-        genericDAO.guardar(p);
-        cargarDatosDeBD();
+        if (p != null) {
+            p.setEntregado(true);
+            genericDAO.guardarActualizar(p);
+            cargarDatosDeBD();
+        }
+
     }
 
+    /**
+     * Metodo encargado de cargar los datos de los paquetes de la base de datos
+     * que pertenecen al reparto del camionero actual y que no esten entregados
+     * en la tabla
+     */
     private void cargarDatosDeBD() {
         Date fecha = new Date();
         String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
@@ -92,11 +102,18 @@ public class EntregaController implements Initializable {
         cargarDatosTabla();
     }
 
+    /**
+     * Metodo encargado de rellenar los datos obtenidos de la base de datos y
+     * mostrarlos en la tabla
+     */
     private void cargarDatosTabla() {
         tbPaqueteria.setItems(data);
         tbPaqueteria.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Configuracion de la coneccion con la base de datos
+     */
     private static void configurarSesion() {
         HibernateUtil.buildSessionFactory();
         HibernateUtil.openSessionAndBindToThread();

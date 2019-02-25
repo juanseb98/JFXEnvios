@@ -7,12 +7,9 @@ package jfxenvios;
 
 import Objetos.Camion;
 import Objetos.TipoCamion;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import dao.GenericDAO;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -25,11 +22,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 /**
- * FXML Controller class
+ * Controlador encargado de realizar todas las consultas y acciones de la
+ * ventana de de Insertar Nuevo camion en la aplicacion
  *
- * @author sastian
+ * @author Juan Sebastian Gonzalez Sanchez
  */
 public class InsertarCamionController implements Initializable {
 
@@ -50,7 +50,7 @@ public class InsertarCamionController implements Initializable {
     private Stage stage;
 
     /**
-     * Initializes the controller class.
+     * Metodo encargado de realizar los siguientes pasos al inicializar
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,6 +76,13 @@ public class InsertarCamionController implements Initializable {
         });
     }
 
+    /**
+     * Metodo que se activa al pulsar el boton de insertar camion y se encarga
+     * de comprobar los datos insertados del nuevo camion y si estan correctos
+     * inserta el nuevo camion en la base de datos
+     *
+     * @param event
+     */
     @FXML
     private void insertarCamion(MouseEvent event) {
         String matricula, modelo, tipo;
@@ -86,14 +93,14 @@ public class InsertarCamionController implements Initializable {
             modelo = txModelo.getText();
             tipo = cbTipo.getValue().toString();
             potencia = Double.parseDouble(txPotencia.getText());
+
             if (matricula.equals("") || modelo.equals("")) {
                 throw new RuntimeException("datos vacios");
             }
-            System.out.println("matricula " + matricula + " modelo " + modelo + " tipo " + tipo + " potencia " + potencia);
-
             Camion c = new Camion(matricula, modelo, potencia, TipoCamion.valueOf(tipo));
             try {
-                genericDAO.guardar(c);
+                genericDAO.guardarActualizar(c);
+
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Insertado con exito");
                 alert.setHeaderText(null);
@@ -101,24 +108,39 @@ public class InsertarCamionController implements Initializable {
                 alert.showAndWait();
                 stage.close();
 
-            } catch (javax.validation.ConstraintViolationException e) {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Error al insertar");
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
+            } catch (ConstraintViolationException e) {
+                StringBuilder str = new StringBuilder();
+                for (ConstraintViolation constraintViolation : e.getConstraintViolations()) {
+                    str.append("En el campo '" + constraintViolation.getPropertyPath() + "':" + constraintViolation.getMessage());
+                }
+                mostrarError(str.toString());
             }
 
         } catch (RuntimeException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error al insertar");
-            alert.setContentText("Deben estar todos los datos rellenos \n y el camion no ha de estar ya registrado");
-            alert.showAndWait();
+            mostrarError("Deben estar todos los datos rellenos \n y el camion no ha de estar ya registrado");
         }
 
     }
 
+    /**
+     * Metodo que se encarga de mostrar una notificacion de error con el mensaje
+     * pasado por parametro
+     *
+     * @param msg mensaje que aparece en la alerta
+     */
+    public void mostrarError(String msg) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error al insertar");
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+    /**
+     * Metodo que se utilizara para cargar el controlador de la ventana camiones
+     *
+     * @param ctr Controlador de la ventana camiones
+     */
     public void setCamionesController(CamionesController ctr) {
         this.ctr = ctr;
     }

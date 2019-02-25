@@ -6,8 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
+ * Objeto que representa la relacion N:M de la BD
  *
  * @author Juan Sebastian Gonzalez Sanchez
  */
@@ -18,23 +21,34 @@ public class Reparto implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private int identificador;
 
     @ManyToOne
     @JoinColumn(name = "matriculaCamion")
+    @Valid
     private Camion camion;
 
     @ManyToOne
     @JoinColumn(name = "dniCamionero")
+    @Valid
     private Camionero camionero;
 
     @Column(name = "fecha")
+    @NotNull
     private Date fecha;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_reparto")
     private List<Paquete> listaPaquetes;
 
+    /**
+     * Contructor generico de reparto
+     *
+     * @param camion Camion que realiza el reparto
+     * @param camionero Camioneron que realiza el reparto
+     * @param fecha Fecha en la que se realiza dicho partido
+     */
     public Reparto(Camion camion, Camionero camionero, Date fecha) {
         this.camion = camion;
         this.camionero = camionero;
@@ -42,6 +56,9 @@ public class Reparto implements Serializable {
         listaPaquetes = new ArrayList<Paquete>();
     }
 
+    /**
+     * Constructor vacio
+     */
     public Reparto() {
         super();
     }

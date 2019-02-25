@@ -3,7 +3,6 @@ package Objetos;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,9 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
+ * Objeto camion
  *
  * @author Juan Sebastian Gonzalez Sanchez
  */
@@ -27,7 +28,7 @@ public class Camion {
     @Id
     @Column(name = "matricula")
     @NotNull
-    @Size(max = 7)
+    @Pattern(regexp = "\\d{4}\\D{3}")
     private String matricula;
 
     @Column(name = "modelo")
@@ -39,6 +40,7 @@ public class Camion {
     private double potencia;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private TipoCamion tipo;
 
     @OneToMany
@@ -46,6 +48,14 @@ public class Camion {
     //@IndexColumn(name = "idx1")
     private List<Reparto> repartos;
 
+    /**
+     * Contructor principal del objeto
+     *
+     * @param matricula Cadena de texto con la matricula
+     * @param Modelo Cadena de texto con el modelo
+     * @param potencia Numero decimal con la potencia
+     * @param tipo Enumerado
+     */
     public Camion(String matricula, String Modelo, double potencia, TipoCamion tipo) {
         this.matricula = matricula;
         this.Modelo = Modelo;
@@ -54,6 +64,9 @@ public class Camion {
         repartos = new ArrayList<Reparto>();
     }
 
+    /**
+     * Constructor vacio
+     */
     public Camion() {
         super();
     }

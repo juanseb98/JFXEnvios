@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jfxenvios;
 
 import Objetos.Camionero;
@@ -10,9 +5,6 @@ import ajustesHibernate.HibernateUtil;
 import dao.GenericDAO;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,12 +16,13 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
+ * Controlador encargado de realizar todas las consultas y acciones de la
+ * ventana de Principal en la aplicacion
  *
- * @author sastian
+ * @author Juan Sebastian Gonzalez Sanchez
  */
 public class FXMLDocumentController implements Initializable {
 
@@ -47,12 +40,20 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button btEntrega;
 
+    /**
+     * Metodo encargado de realizar los siguientes pasos al inicializar
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarSesion();
         comprobarLogueado();
     }
 
+    /**
+     * Metodo encargado de cerrar la aplicacion
+     *
+     * @param event
+     */
     @FXML
     private void Close(MouseEvent event) {
         Stage stage = (Stage) borderPane.getScene().getWindow();
@@ -60,9 +61,14 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    //Futuro boton de loguear y desloguear
+    /**
+     * Metodo que se realiza a la hora de dar al boton de logueo de la ventana
+     * principal, que carga en el panel centro la ventana de logueo
+     *
+     * @param event
+     */
     @FXML
-    private void Clear(MouseEvent event) {
+    private void login(MouseEvent event) {
         Parent root = null;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
@@ -75,6 +81,12 @@ public class FXMLDocumentController implements Initializable {
         borderPane.setCenter(root);
     }
 
+    /**
+     * Metodo que se realiza a la hora de dar al boton de logueo de la ventana
+     * principal, que carga en el panel centro la ventana de camiones
+     *
+     * @param event
+     */
     @FXML
     private void Camiones(MouseEvent event) {
         Parent root = null;
@@ -89,22 +101,46 @@ public class FXMLDocumentController implements Initializable {
         borderPane.setCenter(root);
     }
 
+    /**
+     * Metodo que se realiza a la hora de dar al boton de logueo de la ventana
+     * principal, que carga en el panel centro la ventana de Paquetes
+     *
+     * @param event
+     */
     @FXML
     private void Paquetes(MouseEvent event) {
         loadPantalla("Paquetes");
 
     }
 
+    /**
+     * Metodo que se realiza a la hora de dar al boton de logueo de la ventana
+     * principal, que carga en el panel centro la ventana de Entrega
+     *
+     * @param event
+     */
     @FXML
     private void Entrega(MouseEvent event) {
         loadPantalla("Entrega");
     }
 
+    /**
+     * Metodo que se realiza a la hora de dar al boton de logueo de la ventana
+     * principal, que carga en el panel centro la ventana de paqueteria
+     *
+     * @param event
+     */
     @FXML
     private void trabajadoresActuales(MouseEvent event) {
         loadPantalla("VerListadoCompleto");
     }
 
+    /**
+     * Metodo encargado de preparar y colocar la nueva pantalla en el centro del
+     * panel principal
+     *
+     * @param pantalla nombre de la pantalla a cargar
+     */
     private void loadPantalla(String pantalla) {
         Parent root = null;
         try {
@@ -117,6 +153,12 @@ public class FXMLDocumentController implements Initializable {
         borderPane.setCenter(root);
     }
 
+    /**
+     * Metodo que en funcion de si el usuario esta logueado o no
+     * activa/desactiva los botones correspondientes
+     *
+     * @param ac accion de activar(True) o desactivar(False)
+     */
     public void activarLogin(Boolean ac) {
         btCamion.setVisible(ac);
 
@@ -124,6 +166,8 @@ public class FXMLDocumentController implements Initializable {
         btPaquete.setVisible(ac);
         btTrabajando.setVisible(ac);
     }
+
+    /*
 
     public void activarLogin(Boolean ac, Camionero ca) {
         btCamion.setVisible(ac);
@@ -143,6 +187,11 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+     */
+    /**
+     * Metodo que comprueba en la base de datos si hay algun camionero y en caso
+     * negativa desactiva los botones
+     */
     public void comprobarLogueado() {
         try {
             Thread.sleep(500);
@@ -155,6 +204,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    /**
+     * Configuracion de la coneccion con la base de datos
+     */
     private static void configurarSesion() {
         HibernateUtil.buildSessionFactory();
         HibernateUtil.openSessionAndBindToThread();
