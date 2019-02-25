@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
+ * Inicializador de la aplicacion
  *
  * @author Juan Sebastian Gonzalez Sanchez
  */
@@ -18,6 +19,12 @@ public class JFXEnvios extends Application {
 
     private double x, y;
 
+    /**
+     * Metodo que cargara la aplicaicon inicial con su ventana
+     *
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));

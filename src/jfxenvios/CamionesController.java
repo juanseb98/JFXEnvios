@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jfxenvios;
 
 import Objetos.Camion;
@@ -35,13 +30,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.validation.ConstraintViolationException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
- * FXML Controller class
+ * Controlador encargado de realizar todas las consultas y acciones de la
+ * ventana de camiones en la aplicacion
  *
- * @author DAM-2
+ * @author Juan Sebastian Gonzalez Sanchez
  */
 public class CamionesController implements Initializable {
 
@@ -55,7 +52,6 @@ public class CamionesController implements Initializable {
     @FXML
     private TableView<Camion> tablaCamiones = new TableView<Camion>();
 
-    //TODO Realizar consulta de camiones que no esten dentro de la tabla reparto
     private ObservableList<Camion> data;
     @FXML
     private TableColumn<Camion, String> tcMatricula;
@@ -73,7 +69,7 @@ public class CamionesController implements Initializable {
     private Button btEliminar;
 
     /**
-     * Initializes the controller class.
+     * Metodo encargado de realizar los siguientes pasos al inicializar
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -82,6 +78,14 @@ public class CamionesController implements Initializable {
 
     }
 
+    /**
+     * Metodo que se realiza al pulsar el boton de seleccionar el cual se
+     * encarga de insertar en la tabla reparto los datos correspondiente al
+     * camion y al camionero que se han deleccionado
+     *
+     * @param event
+     * @throws MySQLIntegrityConstraintViolationException
+     */
     @FXML
     private void seleccionarCamion(MouseEvent event) throws MySQLIntegrityConstraintViolationException {
         Boolean trabajando = false;
@@ -90,6 +94,7 @@ public class CamionesController implements Initializable {
         Date fecha = new Date();
         String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
 
+        //Obtenemos una lista de camioneros que estan insertados en la tabla reparto con fecha de hoy para comprobar que no ha seleccionado ya camion hoy
         Query query = session.createQuery("SELECT c FROM Camionero c WHERE c IN(SELECT r.camionero FROM Reparto r WHERE r.fecha='" + fech + "')");
         List<Camionero> camioneros = query.list();
         for (Camionero camionero : camioneros) {
@@ -102,10 +107,15 @@ public class CamionesController implements Initializable {
             Camion cam = tablaCamiones.getSelectionModel().getSelectedItem();
 
             Reparto rep = new Reparto(cam, cami, fecha);
-            genericDAO.guardar(rep);
+            try {
+                genericDAO.guardarActualizar(rep);
+            } catch (ConstraintViolationException e) {
+                //no saltara
+            }
+
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Trabajando");
-            alert.setHeaderText(null);
+            alert.setHeaderText("Camion " + cam.getMatricula() + " seleccionado");
             alert.setContentText("Vaya a Paquetes para escoger paquetes a repartir");
 
             alert.showAndWait();
@@ -115,19 +125,15 @@ public class CamionesController implements Initializable {
             alert.setHeaderText("Ya se le ha asignado un camion hoy");
             alert.showAndWait();
         }
-
+        cargarDeDB();
     }
 
-    //Futuro actualizar tabla
-    public void insertarCamion(Camion c) {
-        data.add(c);
-        tablaCamiones.setItems(data);
-        tablaCamiones.getSelectionModel().selectFirst();
-
-        tablaCamiones.setItems(data);
-        tablaCamiones.getSelectionModel().selectFirst();
-    }
-
+    /**
+     * Metodo encargado de abrir una nueva ventana en la que se solicitara los
+     * datos necesarios para insertar un nuevo camion en la base de datos
+     *
+     * @param event
+     */
     @FXML
     private void insertarNuevoCamion(MouseEvent event) {
 
@@ -150,6 +156,9 @@ public class CamionesController implements Initializable {
         cargarDeDB();
     }
 
+    /**
+     * Configuracion de la coneccion con la base de datos
+     */
     private static void configurarSesion() {
         HibernateUtil.buildSessionFactory();
         HibernateUtil.openSessionAndBindToThread();
@@ -157,10 +166,15 @@ public class CamionesController implements Initializable {
 
     }
 
+    /**
+     * Metodo encargado de cargar los datos de los camiones de la base de datos
+     * en la tabla
+     */
     private void cargarDeDB() {
         //select * from camion where matricula not in (select matriculaCamion from reparto);
         Date fecha = new Date();
         String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
+        //Seleccionamos los camiones que no se encuentren en la lista de reparto en la fecha de hoy
         Query query = session.createQuery("SELECT c FROM Camion c WHERE c NOT IN(SELECT r.camion FROM Reparto r WHERE r.fecha='" + fech + "')");
         data = FXCollections.observableArrayList();
 
@@ -172,6 +186,10 @@ public class CamionesController implements Initializable {
         cargartabla();
     }
 
+    /**
+     * Metodo encargado de rellenar los datos obtenidos de la base de datos y
+     * mostrarlos en la tabla
+     */
     private void cargartabla() {
         tcMatricula.setCellValueFactory(
                 new PropertyValueFactory<Camion, String>("matricula"));
@@ -186,10 +204,22 @@ public class CamionesController implements Initializable {
         tablaCamiones.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Metodo para cargar el controlador de la pantalla principal para utilizar
+     * metodos necesarios
+     *
+     * @param aThis
+     */
     void setCtrPrincipal(FXMLDocumentController aThis) {
         this.ctrPrincipal = aThis;
     }
 
+    /**
+     * Metodo que se ejecuta al dar click en el boton eliminar que se encarga de
+     * eliminar un camion de la base de datos y refrescar la tabla
+     *
+     * @param event
+     */
     @FXML
     private void eliminar(MouseEvent event) {
         Camion cam = tablaCamiones.getSelectionModel().getSelectedItem();

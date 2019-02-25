@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jfxenvios;
 
 import Objetos.Paquete;
@@ -14,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,21 +16,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
- * FXML Controller class
+ * Controlador encargado de realizar todas las consultas y acciones de la
+ * ventana de de Paquetes en la aplicacion
  *
- * @author DAM-2
+ * @author Juan Sebastian Gonzalez Sanchez
  */
 public class PaquetesController implements Initializable {
 
@@ -60,7 +50,7 @@ public class PaquetesController implements Initializable {
     private ObservableList<Paquete> data;
 
     /**
-     * Initializes the controller class.
+     * Metodo encargado de realizar los siguientes pasos al inicializar
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -70,6 +60,13 @@ public class PaquetesController implements Initializable {
 
     }
 
+    /**
+     * Metodo que se realizara al pulsar el boton de añadir paquete a reparto se
+     * encarga de asignarle un reparto al paquete seleccionado y lo almacena en
+     * la BD
+     *
+     * @param event
+     */
     @FXML
     private void aniadirPaqueteToReparto(MouseEvent event) {
         Paquete p = tbPaqueteria.getSelectionModel().getSelectedItem();
@@ -87,7 +84,7 @@ public class PaquetesController implements Initializable {
         } else {
             Reparto reparto = repartos.get(0);
             reparto.aniadirPaquete(p);
-            genericDAO.guardar(reparto);
+            genericDAO.guardarActualizar(reparto);
 
             cargarDeDB();
             tbPaqueteria.setItems(data);
@@ -96,6 +93,7 @@ public class PaquetesController implements Initializable {
 
     }
 
+    /*
     private void setDobleClickFila() {
         tbPaqueteria.setRowFactory(tv -> {
             TableRow<Paquete> row = new TableRow<>();
@@ -109,7 +107,10 @@ public class PaquetesController implements Initializable {
             return row;
         });
     }
-
+     */
+    /**
+     * Configuracion de la coneccion con la base de datos
+     */
     private static void configurarSesion() {
         HibernateUtil.buildSessionFactory();
         HibernateUtil.openSessionAndBindToThread();
@@ -117,8 +118,11 @@ public class PaquetesController implements Initializable {
 
     }
 
+    /**
+     * Metodo encargado de cargar los datos de los paquetes de la base de datos
+     * que no pertenecen a ningun reparto
+     */
     private void cargarDeDB() {
-        //TODO plantear obtener paquetes que no esten en reparto
         Query query = session.createQuery("SELECT p FROM Paquete p WHERE p.reparto is NULL");
         data = FXCollections.observableArrayList();
 
@@ -130,6 +134,10 @@ public class PaquetesController implements Initializable {
         cargarTablaConPaquetes();
     }
 
+    /**
+     * Metodo encargado de rellenar los datos obtenidos de la base de datos y
+     * mostrarlos en la tabla
+     */
     private void cargarTablaConPaquetes() {
         tcId.setCellValueFactory(
                 new PropertyValueFactory<Paquete, String>("codigo"));
@@ -143,7 +151,7 @@ public class PaquetesController implements Initializable {
         tbPaqueteria.setItems(data);
         tbPaqueteria.getSelectionModel().selectFirst();
 
-        //futura implementacion
+        //TODO futura implementacion
         //setDobleClickFila();
     }
 

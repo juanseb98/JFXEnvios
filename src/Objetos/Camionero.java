@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.IndexColumn;
@@ -13,6 +15,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
+ * Objeto Camionero
  *
  * @author Juan Sebastian Gonzalez Sanchez
  */
@@ -23,6 +26,7 @@ public class Camionero implements Serializable {
     @Id
     @Column(name = "dni")
     @NotNull
+    @Pattern(regexp = "\\d{8}\\D{1}")
     private String dni;
 
     @Column(name = "nombre")
@@ -40,11 +44,12 @@ public class Camionero implements Serializable {
     private String poblacion;
 
     @Column(name = "telefono", unique = true)
-    @NotNull
+    @Digits(integer = 9, fraction = 0)
     private int tlfn;
 
     @Column(name = "salario")
     @NotNull
+    @Digits(integer = 5, fraction = 2)
     private Double salario;
 
     @Column(name = "logueado")
@@ -57,6 +62,17 @@ public class Camionero implements Serializable {
     //@IndexColumn(name = "idx2")
     private List<Reparto> repartos;
 
+    /**
+     * Contructor generico del objeto
+     *
+     * @param dni Cadena de texto con el dni
+     * @param pwd Cadena de texto con la contraseña
+     * @param nombre Cadena de texto con el nombre
+     * @param poblacion Cadena de texto con la poblacion
+     * @param tlfn Numero telefonico de contacto
+     * @param salario Numero decimal con la cantidad de salario
+     * @throws Exception
+     */
     public Camionero(String dni, String pwd, String nombre, String poblacion, int tlfn, Double salario) throws Exception {
         setDni(dni);
         this.pass = pwd;
@@ -68,6 +84,9 @@ public class Camionero implements Serializable {
         repartos = new ArrayList<Reparto>();
     }
 
+    /**
+     * Constructor vacio
+     */
     public Camionero() {
         super();
     }

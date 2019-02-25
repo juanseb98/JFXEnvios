@@ -15,6 +15,8 @@ import ajustesHibernate.HibernateUtil;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import dao.GenericDAO;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Main {
 
@@ -66,45 +68,45 @@ public class Main {
             int opc = teclado.nextInt();
             if (opc == 1) {
 
-                genericDAO.guardar(a);
-                genericDAO.guardar(b);
-                genericDAO.guardar(c);
-                genericDAO.guardar(d);
-                genericDAO.guardar(e);
-                genericDAO.guardar(f);
-                genericDAO.guardar(g);
-                genericDAO.guardar(h);
-                genericDAO.guardar(i);
-                genericDAO.guardar(j);
-                genericDAO.guardar(k);
-                genericDAO.guardar(l);
-                genericDAO.guardar(m);
-                genericDAO.guardar(n);
-                genericDAO.guardar(o);
-                genericDAO.guardar(p);
-                genericDAO.guardar(q);
-                genericDAO.guardar(r);
-                genericDAO.guardar(s);
-                genericDAO.guardar(t);
-                genericDAO.guardar(u);
-                genericDAO.guardar(v);
-                genericDAO.guardar(x);
-                genericDAO.guardar(y);
-                genericDAO.guardar(z);
+                genericDAO.guardarActualizar(a);
+                genericDAO.guardarActualizar(b);
+                genericDAO.guardarActualizar(c);
+                genericDAO.guardarActualizar(d);
+                genericDAO.guardarActualizar(e);
+                genericDAO.guardarActualizar(f);
+                genericDAO.guardarActualizar(g);
+                genericDAO.guardarActualizar(h);
+                genericDAO.guardarActualizar(i);
+                genericDAO.guardarActualizar(j);
+                genericDAO.guardarActualizar(k);
+                genericDAO.guardarActualizar(l);
+                genericDAO.guardarActualizar(m);
+                genericDAO.guardarActualizar(n);
+                genericDAO.guardarActualizar(o);
+                genericDAO.guardarActualizar(p);
+                genericDAO.guardarActualizar(q);
+                genericDAO.guardarActualizar(r);
+                genericDAO.guardarActualizar(s);
+                genericDAO.guardarActualizar(t);
+                genericDAO.guardarActualizar(u);
+                genericDAO.guardarActualizar(v);
+                genericDAO.guardarActualizar(x);
+                genericDAO.guardarActualizar(y);
+                genericDAO.guardarActualizar(z);
                 System.err.println("paquetes entregados");
 
-                genericDAO.guardar(cami1);
-                genericDAO.guardar(cami2);
-                genericDAO.guardar(cami3);
+                genericDAO.guardarActualizar(cami1);
+                genericDAO.guardarActualizar(cami2);
+                genericDAO.guardarActualizar(cami3);
                 System.err.println("camion entregados");
 
-                genericDAO.guardar(cam1);
-                genericDAO.guardar(cam2);
-                genericDAO.guardar(cam3);
+                genericDAO.guardarActualizar(cam1);
+                genericDAO.guardarActualizar(cam2);
+                genericDAO.guardarActualizar(cam3);
 
                 System.err.println("camionero entregados");
 
-                genericDAO.guardar(rep);
+                genericDAO.guardarActualizar(rep);
                 System.err.println("reparto entregados");
 
                 System.out.println("todo guardado");
@@ -127,7 +129,7 @@ public class Main {
 
             } else {
 
-                genericDAO.guardar(cam3);
+                genericDAO.guardarActualizar(cam3);
                 System.err.println("camion entregados");
             }
 

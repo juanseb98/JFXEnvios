@@ -34,9 +34,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
- * FXML Controller class
+ * Controlador encargado de realizar todas las consultas y acciones de la
+ * ventana de de Paqueteria en la aplicacion
  *
- * @author DAM-2
+ * @author Juan Sebastian Gonzalez Sanchez
  */
 public class VerListadoCompletoController implements Initializable {
 
@@ -64,42 +65,23 @@ public class VerListadoCompletoController implements Initializable {
     private RadioButton rbEntregados;
 
     /**
-     * Initializes the controller class.
+     * Metodo encargado de realizar los siguientes pasos al inicializar
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarSesion();
         data = FXCollections.observableArrayList();
-        cargarComboBox();
+        prepararRadioButton();
         cargarDeDB();
 
     }
 
-    private void aniadirPaqueteToReparto(MouseEvent event) {
-        Paquete p = tbPaqueteria.getSelectionModel().getSelectedItem();
-        Date fecha = new Date();
-        String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
-        Query query = session.createQuery("SELECT r FROM Reparto r WHERE r.camionero = "
-                + "(SELECT c FROM Camionero c WHERE logueado= 1) AND r.fecha='" + fech + "'");
-        List<Reparto> repartos = query.list();
-        if (repartos.size() != 1) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Hoy no has seleccionado transporte");
-            alert.setContentText("Antes de escoger los paquetes a repartir debes \nseleccionar que transporte quieres usar");
-            alert.showAndWait();
-        } else {
-            Reparto reparto = repartos.get(0);
-            reparto.aniadirPaquete(p);
-            genericDAO.guardar(reparto);
-            //TODO realizar insert realizar actualizacion en reparto para añadir paquete
-
-            tbPaqueteria.setItems(data);
-            tbPaqueteria.getSelectionModel().selectFirst();
-        }
-
-    }
-
+    /**
+     * MEtodo encargado de cargar los paquetes en memoria dependiendo del combo
+     * box seleccionado
+     *
+     * @param datos Parametro de filtro paquetes a mostrar
+     */
     private void rellenarDatos(String datos) {
         Query query;
         List<Paquete> paquetes;
@@ -139,7 +121,10 @@ public class VerListadoCompletoController implements Initializable {
         }
     }
 
-    private void cargarComboBox() {
+    /**
+     * Metodo que se encarga de configurar el funcion de los radio buttons
+     */
+    private void prepararRadioButton() {
         ToggleGroup group = new ToggleGroup();
         rbEntregados.setToggleGroup(group);
         rbNoEntregados.setToggleGroup(group);
@@ -157,6 +142,7 @@ public class VerListadoCompletoController implements Initializable {
         });
     }
 
+    /*
     private void setDobleClickFila() {
         tbPaqueteria.setRowFactory(tv -> {
             TableRow<Paquete> row = new TableRow<>();
@@ -170,7 +156,10 @@ public class VerListadoCompletoController implements Initializable {
             return row;
         });
     }
-
+     */
+    /**
+     * Configuracion de la coneccion con la base de datos
+     */
     private static void configurarSesion() {
         HibernateUtil.buildSessionFactory();
         HibernateUtil.openSessionAndBindToThread();
@@ -178,6 +167,10 @@ public class VerListadoCompletoController implements Initializable {
 
     }
 
+    /**
+     * Metodo encargado de cargar los datos de los paquetes de la base de datos
+     * que no pertenecen a ningun reparto
+     */
     private void cargarDeDB() {
         Query query = session.createQuery("SELECT p FROM Paquete p");
         data = FXCollections.observableArrayList();
@@ -190,6 +183,10 @@ public class VerListadoCompletoController implements Initializable {
         cargarTablaConPaquetes();
     }
 
+    /**
+     * Metodo encargado de rellenar los datos obtenidos de la base de datos y
+     * mostrarlos en la tabla
+     */
     private void cargarTablaConPaquetes() {
         tcId.setCellValueFactory(
                 new PropertyValueFactory<Paquete, String>("codigo"));
@@ -203,7 +200,7 @@ public class VerListadoCompletoController implements Initializable {
         tbPaqueteria.setItems(data);
         tbPaqueteria.getSelectionModel().selectFirst();
 
-        //futura implementacion
+        //TODO futura implementacion
         //setDobleClickFila();
     }
 

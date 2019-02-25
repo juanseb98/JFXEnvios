@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jfxenvios;
 
 import Objetos.Paquete;
 import ajustesHibernate.HibernateUtil;
 import dao.GenericDAO;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -24,9 +21,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
- * FXML Controller class
+ * Controlador encargado de realizar todas las consultas y acciones de la
+ * ventana de Entrega en la aplicacion
  *
- * @author sastian
+ * @author Juan Sebastian Gonzalez Sanchez
  */
 public class EntregaController implements Initializable {
 
@@ -50,7 +48,7 @@ public class EntregaController implements Initializable {
     private ObservableList<Paquete> data;
 
     /**
-     * Initializes the controller class.
+     * Metodo encargado de realizar los siguientes pasos al inicializar
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,16 +67,32 @@ public class EntregaController implements Initializable {
         cargarDatosTabla();
     }
 
+    /**
+     * Metodo encargado de actualizar el estado de entregado a true del paquete
+     * seleccionado
+     *
+     * @param event
+     */
     @FXML
     private void entregarPaquete(MouseEvent event) {
         Paquete p = tbPaqueteria.getSelectionModel().getSelectedItem();
-        p.setEntregado(true);
-        genericDAO.guardar(p);
-        cargarDatosDeBD();
+        if (p != null) {
+            p.setEntregado(true);
+            genericDAO.guardarActualizar(p);
+            cargarDatosDeBD();
+        }
+
     }
 
+    /**
+     * Metodo encargado de cargar los datos de los paquetes de la base de datos
+     * que pertenecen al reparto del camionero actual y que no esten entregados
+     * en la tabla
+     */
     private void cargarDatosDeBD() {
-        Query query = session.createQuery("SELECT p FROM Paquete p WHERE p.reparto=(SELECT r FROM Reparto r WHERE r.camionero = (SELECT c FROM Camionero c WHERE c.logueado=1)) AND p.entregado=0");
+        Date fecha = new Date();
+        String fech = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
+        Query query = session.createQuery("SELECT p FROM Paquete p WHERE p.reparto=(SELECT r FROM Reparto r WHERE r.camionero = (SELECT c FROM Camionero c WHERE c.logueado=1) AND r.fecha='" + fech + "') AND p.entregado=0");
         data = FXCollections.observableArrayList();
 
         List<Paquete> paquetes = query.list();
@@ -88,11 +102,18 @@ public class EntregaController implements Initializable {
         cargarDatosTabla();
     }
 
+    /**
+     * Metodo encargado de rellenar los datos obtenidos de la base de datos y
+     * mostrarlos en la tabla
+     */
     private void cargarDatosTabla() {
         tbPaqueteria.setItems(data);
         tbPaqueteria.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Configuracion de la coneccion con la base de datos
+     */
     private static void configurarSesion() {
         HibernateUtil.buildSessionFactory();
         HibernateUtil.openSessionAndBindToThread();

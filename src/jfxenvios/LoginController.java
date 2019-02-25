@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jfxenvios;
 
 import Objetos.Camionero;
@@ -20,9 +15,10 @@ import javafx.scene.input.MouseEvent;
 import org.hibernate.Session;
 
 /**
- * FXML Controller class
+ * Controlador encargado de realizar todas las consultas y acciones de la
+ * ventana de de Login en la aplicacion
  *
- * @author DAM-2
+ * @author Juan Sebastian Gonzalez Sanchez
  */
 public class LoginController implements Initializable {
 
@@ -40,7 +36,7 @@ public class LoginController implements Initializable {
     private Button btDesloguear;
 
     /**
-     * Initializes the controller class.
+     * Metodo encargado de realizar los siguientes pasos al inicializar
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -48,6 +44,16 @@ public class LoginController implements Initializable {
         comprobarLogueo();
     }
 
+    /**
+     * Metodo que se activa al pulsar el boton de loguear que se encarga de
+     * comprobar si los datos del camionero introducido son correctos en el caso
+     * de ser correctos se procede a loguear al camionero (almacenando en la BD
+     * que esta logueado) y activando los botones.
+     *
+     * En caso de no ser correctos se mostrara la informacion correspondiente
+     *
+     * @param event
+     */
     @FXML
     private void loguear(MouseEvent event) {
         Camionero camionero = (Camionero) session.createQuery("SELECT c FROM Camionero c WHERE dni= '" + tfDni.getText() + "'").uniqueResult();
@@ -60,7 +66,7 @@ public class LoginController implements Initializable {
             if (camionero.getPass().equals(tfPsw.getText())) {
                 camionero.setLogueado();
 
-                genericDAO.guardar(camionero);
+                genericDAO.guardarActualizar(camionero);
 
                 tfDni.setEditable(false);
                 tfPsw.setEditable(false);
@@ -77,11 +83,18 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     * Metodo que se realizara al pulsar el boton de desloguear que se encargara
+     * de actualizar el estado de logueo del camionero en la BD y de desactivar
+     * los botones
+     *
+     * @param event
+     */
     @FXML
     private void desloguear(MouseEvent event) {
         Camionero cam = (Camionero) session.createQuery("SELECT c FROM Camionero c WHERE dni= '" + tfDni.getText() + "'").uniqueResult();
         cam.setDeslogueado();
-        genericDAO.guardar(cam);
+        genericDAO.guardarActualizar(cam);
 
         tfDni.setEditable(true);
         tfPsw.setEditable(true);
@@ -91,6 +104,9 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     * Configuracion de la coneccion con la base de datos
+     */
     private static void configurarSesion() {
         HibernateUtil.buildSessionFactory();
         HibernateUtil.openSessionAndBindToThread();
@@ -98,6 +114,10 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     * Metodo que comprueba en la base de datos si hay algun camionero y en caso
+     * negativa desactiva los botones
+     */
     private void comprobarLogueo() {
         Camionero cam = (Camionero) session.createQuery("SELECT c FROM Camionero c WHERE logueado= 1").uniqueResult();
         if (cam != null) {
