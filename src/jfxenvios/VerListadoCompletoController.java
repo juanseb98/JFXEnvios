@@ -14,14 +14,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -29,9 +33,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import net.sf.jasperreports.engine.JRException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import reportes.AbrirReportes;
 
 /**
  * Controlador encargado de realizar todas las consultas y acciones de la
@@ -43,6 +50,7 @@ public class VerListadoCompletoController implements Initializable {
 
     private static Session session;
     private static GenericDAO genericDAO = new GenericDAO<>();
+    private List<Paquete> paquetes;
 
     @FXML
     private TableView<Paquete> tbPaqueteria;
@@ -63,6 +71,8 @@ public class VerListadoCompletoController implements Initializable {
     private RadioButton rbNoEntregados;
     @FXML
     private RadioButton rbEntregados;
+    @FXML
+    private Button btReporte;
 
     /**
      * Metodo encargado de realizar los siguientes pasos al inicializar
@@ -84,7 +94,7 @@ public class VerListadoCompletoController implements Initializable {
      */
     private void rellenarDatos(String datos) {
         Query query;
-        List<Paquete> paquetes;
+
         switch (datos) {
             case "Todos":
                 query = session.createQuery("SELECT p FROM Paquete p");
@@ -175,7 +185,7 @@ public class VerListadoCompletoController implements Initializable {
         Query query = session.createQuery("SELECT p FROM Paquete p");
         data = FXCollections.observableArrayList();
 
-        List<Paquete> paquetes = query.list();
+        paquetes = query.list();
         for (Paquete paquete : paquetes) {
             data.add(paquete);
         }
@@ -202,6 +212,16 @@ public class VerListadoCompletoController implements Initializable {
 
         //TODO futura implementacion
         //setDobleClickFila();
+    }
+
+    @FXML
+    private void reporte(MouseEvent event) {
+        AbrirReportes abrir = new AbrirReportes();
+        try {
+            abrir.abrirReporte(paquetes);
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="564ed6a1-f3c6-4823-8020-fa52f9ab1ce8">
+	<parameter name="entrgados" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="destino" class="java.lang.String"/>
+	<field name="entregado" class="java.lang.Boolean"/>
+	<variable name="totalPaquetes" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{codigo}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Immediate"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<frame>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="555" height="100" backcolor="#520C0B" uuid="8fc61dd5-ea92-446c-9c57-9405ab1374f5"/>
+				<box>
+					<pen lineWidth="3.0"/>
+				</box>
+				<staticText>
+					<reportElement x="160" y="40" width="230" height="30" forecolor="#FFFFFF" uuid="d4097554-3b04-4c36-8162-7704ec8a118a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="20" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Listado de paquetes]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="56" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="455" y="20" width="100" height="20" forecolor="#878787" uuid="1ec8d172-b5ae-4294-b439-bda6c61bc890"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="23" width="191" height="14" forecolor="#878787" uuid="bbc1ab85-c5ae-413b-a612-af102cfcb308"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Juan Sebastian Gonzalez Sanchez]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="98" y="-2" width="190" height="20" backcolor="#CFCFCF" uuid="7023821f-d063-49b4-9e13-899c233c107f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="288" y="-2" width="130" height="20" backcolor="#CFCFCF" uuid="7faa3d41-3dcd-4011-a306-9f966bbc04da"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="418" y="-2" width="110" height="20" backcolor="#CFCFCF" uuid="4f10a6f9-0a2f-450c-873c-6d1ccad56e69"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="-2" y="-2" width="100" height="20" backcolor="#CFCFCF" uuid="20a042ef-c13b-4de8-bda7-7041814eee15"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20" uuid="db230c98-6d44-4cd2-9c70-952bf96b6169">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e597e423-7c6f-4491-9f70-ab023bd6ed14"/>
+				</reportElement>
+				<text><![CDATA[Codigo paquete]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="190" height="20" uuid="8493dbd8-0082-48f0-a27b-59edea08b188">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1ca3c27a-13be-4b0d-ac1b-fc951e060301"/>
+				</reportElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="120" height="20" uuid="c3931907-b0ec-4894-b99c-6e75d80a628d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f276ff97-abdc-40cd-a5e5-47ccdd39cbe8"/>
+				</reportElement>
+				<text><![CDATA[Destino]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="0" width="100" height="20" uuid="85f6aa50-be1b-4fad-8181-750a96550612">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="256d42d9-e997-4e28-9ea6-7c03ad3ecb6a"/>
+				</reportElement>
+				<text><![CDATA[Entregado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="80" height="18" uuid="5bb89b84-bdc0-45ef-8140-e4ee7cc23574">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e597e423-7c6f-4491-9f70-ab023bd6ed14"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="10" width="190" height="18" uuid="87a87cac-67b2-4ad2-8dae-a60d0b8bee3c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1ca3c27a-13be-4b0d-ac1b-fc951e060301"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="10" width="120" height="18" uuid="304cd51e-6102-4c2c-a11c-3bd691cc39cd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f276ff97-abdc-40cd-a5e5-47ccdd39cbe8"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{destino}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="10" width="100" height="18" uuid="4475d401-4206-4876-aa12-bc09ecf81f64">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="256d42d9-e997-4e28-9ea6-7c03ad3ecb6a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{entregado}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="-2" y="8" width="100" height="20" uuid="1a8bd2b6-e8c8-40bc-981d-9bcd553e26e8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="98" y="8" width="190" height="20" uuid="e678193f-cee6-4ac2-9659-c1e0ee3ec78d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="288" y="8" width="130" height="20" uuid="44af0c19-c56e-44d9-9ff5-2789d8c91ec2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="418" y="8" width="110" height="20" uuid="d785d1bb-291f-4405-86b1-c32d49ba225e"/>
+			</rectangle>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="529" y="6" width="26" height="14" uuid="88a370c6-f4fe-4d98-a861-a32503246008"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="294" splitType="Stretch">
+			<textField>
+				<reportElement x="110" y="10" width="100" height="30" uuid="0b21b568-0acf-49e6-a946-e3489ea506fc"/>
+				<textFieldExpression><![CDATA[$V{totalPaquetes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="9" width="100" height="30" uuid="c1858a9b-21cb-4469-b330-4857e2d11910"/>
+				<text><![CDATA[Total de paquetes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="9" width="100" height="30" uuid="0b107d60-630c-4a25-b81e-7550b28221e1"/>
+				<text><![CDATA[Total de paquetes entregados]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

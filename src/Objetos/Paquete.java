@@ -25,7 +25,6 @@ public class Paquete implements Serializable {
     private int codigo;
 
     @Column(name = "descripcion")
-    @Max(40)
     private String descripcion;
 
     @Column(name = "destino")
@@ -34,7 +33,6 @@ public class Paquete implements Serializable {
 
     @Column(name = "entregado")
     @Type(type = "boolean")
-    @AssertFalse
     private Boolean entregado;
 
     @ManyToOne

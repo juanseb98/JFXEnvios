@@ -49,9 +49,9 @@ INSERT INTO camionero(dni,pwd,nombre,poblacion,telefono,salario,logueado)  VALUE
 INSERT INTO camionero(dni,pwd,nombre,poblacion,telefono,salario,logueado)  VALUES("12345678A", "password", "Pedro", "Sevilla", 685965365, 1500.0,0);
 INSERT INTO camionero(dni,pwd,nombre,poblacion,telefono,salario,logueado)  VALUES("78945612A", "password", "Antonio", "Malaga", 632587693, 1632.0,0);
 
-INSERT INTO Camion(matricula,modelo,potencia,tipo) VALUES("1234jdk", "Mercedes", 25.0, "Diesel");
-INSERT INTO Camion(matricula,modelo,potencia,tipo) VALUES("2356dse", "Cadilac", 30.0, "Gasolina");
-INSERT INTO Camion(matricula,modelo,potencia,tipo) VALUES("1568red", "Toledo", 50.0, "Electrico");
+INSERT INTO camion(matricula,modelo,potencia,tipo) VALUES("1234jdk", "Mercedes", 25.0, "Diesel");
+INSERT INTO camion(matricula,modelo,potencia,tipo) VALUES("2356dse", "Cadilac", 30.0, "Gasolina");
+INSERT INTO camion(matricula,modelo,potencia,tipo) VALUES("1568red", "Toledo", 50.0, "Electrico");
 
 INSERT INTO paquete(descripcion,destino,entregado) VALUES("Paquete grande", "Sevilla", false);
 INSERT INTO paquete(descripcion,destino,entregado) VALUES("Paquete pequeño", "Malaga", false);

@@ -17,47 +17,47 @@ import javafx.stage.StageStyle;
  */
 public class JFXEnvios extends Application {
 
-    private double x, y;
+	private double x, y;
 
-    /**
-     * Metodo que cargara la aplicaicon inicial con su ventana
-     *
-     * @param stage
-     * @throws Exception
-     */
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+	/**
+	 * Metodo que cargara la aplicaicon inicial con su ventana
+	 *
+	 * @param stage marco de la ventana
+	 * @throws Exception Error a la hora de abrir
+	 */
+	@Override
+	public void start(Stage stage) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
-        Scene scene = new Scene(root);
-        scene.setFill(Color.TRANSPARENT);
+		Scene scene = new Scene(root);
+		scene.setFill(Color.TRANSPARENT);
 
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                x = event.getSceneX();
-                y = event.getSceneY();
-            }
-        });
+		root.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				x = event.getSceneX();
+				y = event.getSceneY();
+			}
+		});
 
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                stage.setX(event.getScreenX() - x);
-                stage.setY(event.getScreenY() - y);
-            }
-        });
+		root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				stage.setX(event.getScreenX() - x);
+				stage.setY(event.getScreenY() - y);
+			}
+		});
 
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.show();
-    }
+		stage.setScene(scene);
+		stage.initStyle(StageStyle.TRANSPARENT);
+		stage.show();
+	}
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(String[] args) {
+		launch(args);
+	}
 
 }
