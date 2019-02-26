@@ -6,34 +6,24 @@
 package jfxenvios;
 
 import Objetos.Paquete;
-import Objetos.Reparto;
 import ajustesHibernate.HibernateUtil;
 import dao.GenericDAO;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import net.sf.jasperreports.engine.JRException;
 import org.hibernate.Query;
@@ -79,6 +69,8 @@ public class VerListadoCompletoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // futuro reporte
+        btReporte.setVisible(false);
         configurarSesion();
         data = FXCollections.observableArrayList();
         prepararRadioButton();

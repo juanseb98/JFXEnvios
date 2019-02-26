@@ -4,6 +4,7 @@
  */
 package reportes;
 
+import Objetos.Paquete;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ import net.sf.jasperreports.swing.JRViewer;
  */
 public class AbrirReportes extends JFrame {
 
-    public void abrirReporte(List lista) throws JRException {
+    public void abrirReporte(List<Paquete> lista) throws JRException {
         // TODO code application logic here
         /*
          * JasperReports  nos proporciona las clases:
@@ -35,10 +36,16 @@ public class AbrirReportes extends JFrame {
          * es "JRBeanCollectionDataSource" que puede convertir una
          * "java.util.Collection" en un DataSource de forma automática
          */
+        int entregado = 0;
+        for (Paquete object : lista) {
+            if (object.isEntregado()) {
+                entregado++;
+            }
+        }
 
-        String fis = "informes/reportes.jrxml";
+        String fis = "informes/Reporte.jrxml";
         Map<String, Object> parametros = new HashMap<>();
-        parametros.put("entregados", 1);
+        parametros.put("entregados", entregado);
 
         JasperReport jasperReport = JasperCompileManager.compileReport(fis);
         JasperPrint jasper = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista));
