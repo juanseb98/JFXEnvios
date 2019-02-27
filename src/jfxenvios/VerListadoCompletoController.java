@@ -70,7 +70,7 @@ public class VerListadoCompletoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // futuro reporte
-        btReporte.setVisible(false);
+        //btReporte.setVisible(false);
         configurarSesion();
         data = FXCollections.observableArrayList();
         prepararRadioButton();

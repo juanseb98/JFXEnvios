@@ -43,7 +43,7 @@ public class AbrirReportes extends JFrame {
             }
         }
 
-        String fis = "informes/Reporte.jrxml";
+        String fis = "informes/reportes.jrxml";
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("entregados", entregado);
 
